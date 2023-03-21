@@ -4,7 +4,7 @@ import * as utils from '~/utils/nuxt-content'
 
 const { data } = await useAsyncData(() => {
   // use custom type as nuxt-content does not implement type well
-  return queryContent('/post/').find() as unknown as Promise<Array<Page>>
+  return queryContent('/blog/').find() as unknown as Promise<Array<Page>>
 })
 
 const series = new Set<string>()

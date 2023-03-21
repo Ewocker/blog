@@ -3,7 +3,7 @@ layout: blog
 title: Blog
 description: List of blog
 image:
-  src: /tesla-interview/tesla-symbol.jpg TODO
+  src: /blog/tesla-interview/tesla-symbol.jpg TODO
   alt: Blog
 head:
   meta:

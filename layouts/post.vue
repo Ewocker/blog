@@ -10,10 +10,6 @@ type Content = {
 }
 
 const { page, toc, prev, next }: Content = useContent()
-
-const getMeta = (name: string): Meta | undefined =>
-  page.value.head.meta.find((o: any) => o.name === name)
-
 const authorImage = utils.getPageMeta(page.value, 'authorImage')?.content
 const author = utils.getPageMeta(page.value, 'author')?.content
 const date = utils.getPageMeta(page.value, 'date')?.content
@@ -84,3 +80,9 @@ const hero = page.value.image
 
   </div>
 </template>
+
+<style>
+img {
+  border-radius: 0.5cqi;
+}
+</style>

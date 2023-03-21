@@ -3,7 +3,7 @@ import type { Page } from 'type/nuxt-content-type'
 
 const { data } = await useAsyncData(() => {
   // use custom type as nuxt-content does not implement type well
-  return queryContent('/post/').find() as unknown as Promise<Array<Page>>
+  return queryContent('/blog/').find() as unknown as Promise<Array<Page>>
 })
 </script>
 
