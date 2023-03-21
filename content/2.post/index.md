@@ -1,5 +1,0 @@
-
-# Post
-
-::blog-posts
-::

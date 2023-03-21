@@ -4,20 +4,7 @@ const { navigation } = useContent()
 
 <template>
   <div>
-    <header class="shadow-sm bg-white">
-      <nav class="container mx-auto p-4 flex justify-between">
-        <NuxtLink to="/"
-                  class="font-bold">Nuxt Dojo</NuxtLink>
-        <ul class="flex gap-4">
-          <li v-for="nav in navigation"
-              :key="nav._path">
-            <NuxtLink :to="nav._path">
-              {{ nav.title }}
-            </NuxtLink>
-          </li>
-        </ul>
-      </nav>
-    </header>
+    <Header />
     <div class="container mx-auto p-4 prose">
       <slot />
     </div>
