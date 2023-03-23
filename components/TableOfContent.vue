@@ -23,6 +23,14 @@ defineProps({
             <a :href="`#${sublink.id}`">
               {{ sublink.text }}
             </a>
+            <ul v-if="sublink.children">
+              <li v-for="subsublink in sublink.children"
+                  :key="subsublink.text">
+                <a :href="`#${subsublink.id}`">
+                  {{ subsublink.text }}
+                </a>
+              </li>
+            </ul>
           </li>
         </ul>
       </li>
