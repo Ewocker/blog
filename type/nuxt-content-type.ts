@@ -14,6 +14,7 @@ export interface Toc {
 
 export interface Meta {
   name: string
+  property: string
   content: string
 }
 
@@ -24,9 +25,11 @@ export interface Page {
   _partial: boolean
   _locale: string
   _empty: boolean
+  navigation: boolean
   title: string
   series: string
   description: string
+  keywords: Array<string>
   layout: string
   image: {
     src: string

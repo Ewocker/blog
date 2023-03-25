@@ -1,15 +1,14 @@
 <script setup lang="ts">
+import type { Author } from './data'
+import { getHumanDate } from '~/utils/date'
+
 defineProps({
-  img: {
-    type: String,
-    required: true
-  },
   author: {
-    type: String,
+    type: Object as PropType<Author>,
     required: true
   },
   date: {
-    type: String,
+    type: Date,
     required: true
   },
   read: {
@@ -17,23 +16,25 @@ defineProps({
     required: true
   }
 });
+
+
 </script>
 
 <template>
   <div class="text-black text-sm dark:text-gray-400 flex items-center gap-2">
     <div>
       <img class="w-12 h-12 rounded-full hover:cursor-pointer"
-           :src="img"
-           alt="author photo">
+           :src="author?.image"
+           alt="author image">
     </div>
     <div>
       <a class="text-gray-700 hover:text-blue-400 text-base font-medium"
-         href="">
-        {{ author }}
+         :href="author?.url">
+        {{ author?.name }}
       </a>
       <br />
       <span class="text-gray-400">
-        {{ date }} · {{ read }}
+        {{ getHumanDate(date) }} · {{ read }}
       </span>
     </div>
   </div>

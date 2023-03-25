@@ -12,7 +12,7 @@ const showMenu = ref(false)
              alt="Logo"
              class="h-8 w-8 mr-2">
       </NuxtLink>
-      <ul class="flex gap-8">
+      <ul class="flex gap-8 pt-1">
         <li v-for="nav in navigation"
             :key="nav._path">
           <NuxtLink :to="nav._path">

@@ -1,7 +1,23 @@
+<script setup>
+useHead({
+  meta: [{
+    name: 'og:site_name',
+    content: '矽谷路上遇見你'
+  }, {
+    property: 'og:type',
+    content: 'website'
+  }, {
+    name: 'robots',
+    content: 'index, follow'
+  }]
+})
+</script>
+
 <template>
   <div>
     <Header />
     <NuxtPage />
+    <Copyright class="text-right px-4 py-4" />
   </div>
 </template>
 

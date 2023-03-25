@@ -4,7 +4,10 @@ import tailwindLineClamp from '@tailwindcss/line-clamp'
 export default defineNuxtConfig({
   modules: ['@nuxt/content', '@nuxtjs/tailwindcss'],
   content: {
-    documentDriven: true,
+    documentDriven: {
+      // FOR SEO meta tag or:url
+      host: 'https://blog.ewocker.com',
+    },
   },
   tailwindcss: {
     config: {

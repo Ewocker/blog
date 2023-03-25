@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<style>
+<style scoped>
 /* not prose auto */
 .prose-img\:mx-auto :is(:where(img):where([class~="not-prose"] *)) {
   margin: 0 auto 10px;

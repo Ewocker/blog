@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Page, Toc } from '~/type/nuxt-content-type'
-import * as utils from '~/utils/nuxt-content'
+import authors from '~/components/BlogAuthor/data'
+import { getPageMeta, getPageDate } from '~/utils/nuxt-content'
 
 type Content = {
   page: Ref<Page>;
@@ -10,19 +11,34 @@ type Content = {
 }
 
 const { page, toc, prev, next }: Content = useContent()
-const authorImage = utils.getPageMeta(page.value, 'authorImage')?.content
-const author = utils.getPageMeta(page.value, 'author')?.content
-const date = utils.getPageMeta(page.value, 'date')?.content
-const read = utils.getPageMeta(page.value, 'read')?.content
-const keywords = utils.getPageKeywords(page.value)
+const authorName = getPageMeta(page.value, 'author')?.content || '小貓貓工程師'
+const author = authors.get(authorName)
+const date = getPageDate(page.value)
+const read = getPageMeta(page.value, 'read')?.content
+const keywords = page.value.keywords
 const series = page.value.series
 const hero = page.value.image
+
+// Add more to meta tag head
+useHead({
+  meta: [{
+    property: 'og:type',
+    content: 'article'
+  }, {
+    property: 'article:publisher',
+    content: author?.facebook
+  }, {
+    property: 'article:author',
+    content: author?.facebook
+  }]
+})
 </script>
 
 <template>
   <div>
     <div class="container px-3 pt-12 mx-auto prose prose-img:mx-auto flex flex-wrap">
 
+      <!-- {{ config }} -->
       <div class="mb-0 w-full pb-2">
         <div v-if="series"
              class="text-gray-400 text-md font-medium mb-2 hover:cursor-pointer">
@@ -36,12 +52,10 @@ const hero = page.value.image
       </div>
 
       <div class="pb-4 w-full">
-        <span v-for="keyword in keywords"
-              :key="keyword"
-              class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300 hover:cursor-pointer">
-          {{ keyword }}
-          <!-- TODO Link -->
-        </span>
+        <!-- TODO Link -->
+        <Tag v-for="keyword in keywords"
+             :key="keyword"
+             :name="keyword" />
       </div>
 
       <div class="text-lg w-full">
@@ -51,7 +65,6 @@ const hero = page.value.image
       <BlogAuthor :author="author!"
                   :read="read!"
                   :date="date!"
-                  :img="authorImage!"
                   class="w-full" />
 
       <img :src="hero.src"
@@ -74,7 +87,5 @@ const hero = page.value.image
                 :page="next"
                 title="下一篇 >" />
     </div>
-    <Copyright class="text-right px-4 py-4" />
-
   </div>
 </template>

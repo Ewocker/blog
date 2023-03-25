@@ -6,20 +6,20 @@ const seriesName = paths[paths.length - 1]
 
 type Content = { page: Ref<Page> }
 const { page }: Content = useContent()
-const series = page.value.series
-const hero = page.value.image
 
 const { data } = await useAsyncData(() => {
   // use custom type as nuxt-content does not implement type well
-  return queryContent(`/blog/${seriesName}`).where({ layout: { $ne: 'series' } }).find() as unknown as Promise<Array<Page>>
+  return queryContent(`/blog/${seriesName}`)
+    .where({ layout: { $ne: 'series' } })
+    .find() as unknown as Promise<Array<Page>>
 })
 </script>
 
 <template>
-  <div class="flex flex-wrap p-4 md:p-16">
+  <div class="flex flex-wrap py-4 px-2 md:p-16">
     <!-- Series Name -->
     <div v-if="page.series"
-         class="w-full pl-16 md:w-1/3 text-center md:text-left">
+         class="w-full xl:pl-16 md:pr-2 md:pl-8 md:pr-5 md:w-1/3 text-center md:text-left">
       <div class="text-gray-600 text-4xl font-medium mb-2">
         {{ page.series }}
       </div>
@@ -30,8 +30,8 @@ const { data } = await useAsyncData(() => {
     </div>
     <!-- Hero Image -->
     <div class="md:w-2/3">
-      <img :src="hero.src"
-           :alt="hero.alt"
+      <img :src="page.image.src"
+           :alt="page.image.alt"
            class="hero mx-auto object-cover hidden md:block"
            style="max-height: 30rem;" />
     </div>
