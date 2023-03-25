@@ -41,7 +41,7 @@ const read = getMeta('read')?.content
 
     <a v-if="page.title"
        :href="page._path">
-      <div class="text-3xl font-normal py-3 w-full">
+      <div class="text-3xl font-normal pt-2 w-full">
         {{ page.title }}
       </div>
     </a>
@@ -49,14 +49,15 @@ const read = getMeta('read')?.content
 
     <a v-if="page.description"
        :href="page._path">
-      <div class="text-md w-full font-light">
+      <div class="text-md w-full font-light line-clamp-3">
         {{ page.description }}
       </div>
     </a>
 
-    <span class="text-gray-400 text-sm font-light">
+    <div class="text-gray-400 text-left mt-2 text-sm font-light">
       {{ date }} · {{ read }}
-    </span>
+    </div>
+
   </div>
 </template>
 

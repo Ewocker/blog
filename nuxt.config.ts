@@ -1,5 +1,5 @@
 import tailwindTypography from '@tailwindcss/typography'
-import defaultTheme from 'tailwindcss/defaultTheme'
+import tailwindLineClamp from '@tailwindcss/line-clamp'
 
 export default defineNuxtConfig({
   modules: ['@nuxt/content', '@nuxtjs/tailwindcss'],
@@ -8,7 +8,7 @@ export default defineNuxtConfig({
   },
   tailwindcss: {
     config: {
-      plugins: [tailwindTypography],
+      plugins: [tailwindTypography, tailwindLineClamp],
       theme: {
         extend: {
           typography: ({ theme }) => ({
@@ -23,7 +23,6 @@ export default defineNuxtConfig({
                     'text-decoration': 'underline',
                   },
                 },
-                // remove backtick for code element
                 code: {
                   backgroundColor: theme('colors.slate.200'),
                   borderRadius: theme('borderRadius.sm'),

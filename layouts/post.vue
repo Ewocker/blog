@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Page, Toc, Meta } from '~/type/nuxt-content-type'
+import type { Page, Toc } from '~/type/nuxt-content-type'
 import * as utils from '~/utils/nuxt-content'
 
 type Content = {
@@ -21,8 +21,6 @@ const hero = page.value.image
 
 <template>
   <div>
-    <Header />
-
     <div class="container px-3 pt-12 mx-auto prose prose-img:mx-auto flex flex-wrap">
 
       <div class="mb-0 w-full pb-2">
@@ -80,9 +78,3 @@ const hero = page.value.image
 
   </div>
 </template>
-
-<style>
-img {
-  border-radius: 0.5cqi;
-}
-</style>

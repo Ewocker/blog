@@ -7,40 +7,48 @@ const { data } = await useAsyncData(() => {
   return queryContent('/blog/').find() as unknown as Promise<Array<Page>>
 })
 
-const series = new Set<string>()
-const tags = new Set<string>()
+const series = ref(new Map<string, Array<Page>>())
+const tags = ref(new Map<string, Array<Page>>())
 for (let page of data.value!) {
-  if (page.series) series.add(page.series)
-  utils.getPageKeywords(page)?.forEach(tag => tags.add(tag))
+  if (page.series) {
+    if (!series.value.has(page.series)) series.value.set(page.series, [])
+    series.value.get(page.series)?.push(page)
+  }
+  const keywords = utils.getPageKeywords(page)
+  if (keywords) {
+    keywords.forEach(tag => {
+      if (!tags.value.has(tag)) tags.value.set(tag, [])
+      tags.value.get(tag)?.push(page)
+    })
+  }
 }
 </script>
 
 <template>
   <div>
-    <Header />
     <div class="container mx-auto p-4 prose prose-img:mx-auto">
       <slot />
     </div>
+
+
     <div>
-      <div v-for="serie in series"
-           :key="serie">
-        {{ serie }}
-        <div class="flex flex-wrap justify-evenly items-start md:mx-15">
-          <PostCard v-for="post in data?.filter(o => o.series === serie)"
-                    :key="'serie' + post._id"
-                    :page="post"
-                    class="w-full mb-6" />
+      <div v-for="[name, pages] in series"
+           :key="'serie' + name">
+        {{ name }}
+        <div v-for="page in pages"
+             :key="'seriepage' + page.title"
+             class="pl-4">
+          {{ page.title }}
         </div>
       </div>
 
-      <div v-for="tag in tags"
-           :key="'tag' + tag">
-        {{ tag }}
-        <div class="flex flex-wrap justify-evenly items-start md:mx-15">
-          <PostCard v-for="post in data?.filter(o => utils.getPageKeywords(o)?.includes(tag))"
-                    :key="'serie' + post._id"
-                    :page="post"
-                    class="w-full mb-6" />
+      <div v-for="[name, pages] in tags"
+           :key="'tag' + name">
+        {{ name }}
+        <div v-for="page in pages"
+             :key="'seriepage' + page.title"
+             class="pl-4">
+          {{ page.title }}
         </div>
       </div>
     </div>

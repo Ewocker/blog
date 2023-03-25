@@ -9,7 +9,6 @@ const { data } = await useAsyncData(() => {
 
 <template>
   <div>
-    <Header />
     <div class="container mx-auto p-4 prose prose-img:mx-auto">
       <slot />
     </div>
