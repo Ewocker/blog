@@ -47,7 +47,6 @@ const read = getMeta('read')?.content
         {{ page.title }}
       </div>
     </a>
-    <slot />
 
     <a v-if="page.description"
        :href="page._path">
