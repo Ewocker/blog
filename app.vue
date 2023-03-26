@@ -28,6 +28,15 @@ useHead({
   font-family: 'Edu NSW ACT Foundation', cursive;
 }
 
+@font-face {
+  font-family: "YRDZST";
+  src: local("YRDZST"), url('~assets/YRDZST/YRDZST-Medium.ttf') format("truetype");
+}
+
+.font-family-yrdzst {
+  font-family: 'YRDZST', cursive;
+}
+
 img {
   border-radius: 0.5cqi;
 }
