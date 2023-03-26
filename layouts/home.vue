@@ -12,7 +12,7 @@ const { data: posts } = await useAsyncData(() => {
     <!-- Banner -->
     <div class="grid-banner">
       <div class="w-full flex justify-center items-end">
-        <img src="/common/logo.png"
+        <img src="/common/logo-inverted.png"
              class="w-40 mt-20"
              alt="logo">
       </div>
@@ -68,7 +68,7 @@ const { data: posts } = await useAsyncData(() => {
 }
 
 .grid-post {
-  padding: 2rem 0;
+  padding: 2rem 2rem;
   grid-area: post;
   display: grid;
   grid-template-columns: repeat(1, 1fr);
@@ -77,14 +77,9 @@ const { data: posts } = await useAsyncData(() => {
   row-gap: 2rem;
 }
 
-@media (min-width: 768px) {
-  .grid-post {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
 @media (min-width: 1280px) {
   .grid-post {
+    padding: 1rem;
     grid-template-columns: repeat(3, 1fr);
   }
 }
