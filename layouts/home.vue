@@ -16,7 +16,7 @@ const { data: posts } = await useAsyncData(() => {
              class="w-40 mt-20"
              alt="logo">
       </div>
-      <p class="w-full text-center text-3xl text-white mt-36 font-family-yrdzst">
+      <p class="w-full text-center text-3xl text-white mt-36 font-family-edu">
         分享小貓貓工程師走在矽谷路上遇見的大小事～
       </p>
     </div>
