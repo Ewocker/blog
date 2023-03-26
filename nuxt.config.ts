@@ -1,5 +1,6 @@
 import tailwindTypography from '@tailwindcss/typography'
 import tailwindLineClamp from '@tailwindcss/line-clamp'
+import redirect from './data/redirect'
 
 export default defineNuxtConfig({
   modules: ['@nuxt/content', '@nuxtjs/tailwindcss'],
@@ -9,6 +10,7 @@ export default defineNuxtConfig({
       host: 'https://blog.ewocker.com',
     },
   },
+  routeRules: redirect,
   tailwindcss: {
     config: {
       plugins: [tailwindTypography, tailwindLineClamp],
