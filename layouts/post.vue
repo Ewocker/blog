@@ -51,7 +51,7 @@ useHead({
         </div>
       </div>
 
-      <div class="pb-4 w-full">
+      <div class="pb-4 w-full flex flex-wrap">
         <!-- TODO Link -->
         <Tag v-for="keyword in keywords"
              :key="keyword"
@@ -79,7 +79,7 @@ useHead({
       <slot />
     </div>
 
-    <div class="flex flex-wrap justify-evenly items-start md:mx-15">
+    <div class="flex flex-wrap justify-evenly items-start md:mx-15 px-4">
       <PostCard v-if="prev"
                 :page="prev"
                 title="< 上一篇" />

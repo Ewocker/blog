@@ -33,7 +33,7 @@ for (let page of data.value!) {
         <PostCard v-for="page in data"
                   :key="'serie' + page._id"
                   :page="page"
-                  class="w-full not-prose block md:hidden my-20" />
+                  class="w-full not-prose block md:hidden my-2" />
       </div>
 
       <div class="w-full lg:w-1/3 md:px-10">
