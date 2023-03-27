@@ -31,10 +31,10 @@ const read = getMeta('read')?.content
 
       </a>
     </div>
-    <div class="w-1/2 px-10 md:pt-16">
+    <div class="w-1/2 px-10 lg:pt-12 md:pt-2">
       <a v-if="page.title"
          :href="page._path">
-        <div class="text-3xl font-semibold font-family-edu mb-8 w-full">
+        <div class="text-4xl mb-8 w-full">
           {{ page.title }}
         </div>
         <div class="text-lg w-full font-light line-clamp-10 my-5">

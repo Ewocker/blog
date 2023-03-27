@@ -4,7 +4,9 @@ import redirect from './data/redirect'
 
 export default defineNuxtConfig({
   modules: ['@nuxt/content', '@nuxtjs/tailwindcss'],
-  css: ['~/assets/fonts/yrdzst/yrdzst.css'],
+  css: [
+    '~/assets/fonts/cyly/cyly.css', // font
+  ],
   content: {
     documentDriven: {
       // FOR SEO meta tag or:url

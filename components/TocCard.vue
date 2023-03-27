@@ -9,9 +9,6 @@ const props = defineProps({
     required: true
   },
 })
-
-const getMeta = (name: string): Meta | undefined =>
-  props.page.head?.meta?.find((o: any) => o.name === name)
 </script>
 
 <template>
@@ -29,7 +26,7 @@ const getMeta = (name: string): Meta | undefined =>
 
     <a v-if="page.title"
        :href="page._path">
-      <div class="text-2xl font-semibold font-family-edu pt-2 w-full">
+      <div class="text-4xl font-semibold font-family-cyly pt-2 w-full">
         {{ page.title }}
       </div>
       <div class="text-md w-full font-light line-clamp-3">

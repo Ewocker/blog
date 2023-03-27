@@ -28,17 +28,20 @@ useHead({
   font-family: 'Edu NSW ACT Foundation', cursive;
 }
 
-.font-family-yrdzst {
-  font-family: 'YRDZST';
+.font-family-cyly {
+  font-family: 'cyly';
 }
 
 img {
   border-radius: 0.5cqi;
 }
 
-/* https://weblog.west-wind.com/posts/2016/feb/15/flexbox-containers-pre-tags-and-managing-overflow */
+/* https://makandracards.com/makandra/511507-flexbox-how-to-prevent-pre-elements-from-overflowing */
 /* flex issues with pre tag overflow */
-* {
-  min-width: 0;
+pre {
+  min-width: -webkit-fill-available;
+  min-width: -moz-available;
+  min-width: stretch;
+  max-width: 0;
 }
 </style>

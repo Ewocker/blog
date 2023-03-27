@@ -1,0 +1,4 @@
+@font-face {
+  font-family: 'cyly';
+  src: local('cyly'), url('~/assets/fonts/cyly/cyly.woff') format("woff");
+}
