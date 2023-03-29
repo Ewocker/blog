@@ -5,6 +5,8 @@ const { data: posts } = await useAsyncData(() => {
   // use custom type as nuxt-content does not implement type well
   return queryContent('/blog/').where({ layout: { $ne: 'series' } }).limit(10).find() as unknown as Promise<Array<Page>>
 })
+
+const featuredPost = posts.value![0]!
 </script>
 
 <template>
@@ -22,10 +24,10 @@ const { data: posts } = await useAsyncData(() => {
     </div>
     <div class="grid-feature">
       <!-- show feature post style only on md above -->
-      <FeatureCard :page="posts?.at(0)!"
-                   class="hidden md:flex" />
-      <PostCard :page="posts?.at(0)!"
-                class="md:hidden" />
+      <FeatureCard :page="featuredPost"
+                   class="hidden lg:flex" />
+      <PostCard :page="featuredPost"
+                class="lg:hidden" />
     </div>
     <div class="grid-post">
       <PostCard v-for="post in posts?.slice(1)"
@@ -65,6 +67,7 @@ const { data: posts } = await useAsyncData(() => {
   display: grid;
   justify-items: center;
   align-items: center;
+  margin: 0 5rem;
 }
 
 .grid-post {

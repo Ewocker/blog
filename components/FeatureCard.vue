@@ -22,7 +22,7 @@ const read = getMeta('read')?.content
       <a v-if="page.image"
          :href="page._path">
         <div class="group flex justify-center bg-gray-400 text-center relative rounded-md overflow-hidden cursor-pointer"
-             style="width: 40rem; height: 30rem;">
+             style="max-width: 45rem; height: 35rem;">
           <img :src="page.image.src"
                :alt="page.image.alt"
                class="object-cover ease-in-out duration-500 group-hover:rotate-6 group-hover:scale-125 w-full rounded-none" />
@@ -31,17 +31,19 @@ const read = getMeta('read')?.content
 
       </a>
     </div>
-    <div class="w-1/2 px-10 lg:pt-12 md:pt-2">
+    <div class="w-1/2 flex text-center md:px-10 lg:pt-12 md:pt-2">
       <a v-if="page.title"
          :href="page._path">
-        <div class="text-4xl mb-8 w-full">
-          {{ page.title }}
-        </div>
-        <div class="text-lg w-full font-light line-clamp-10 my-5">
-          {{ page.description }}
-        </div>
-        <div class="text-gray-400 text-right mt-2 text-sm font-light">
-          {{ date }} · {{ read }}
+        <div style="max-width: 40rem;">
+          <div class="text-4xl w-full mb-5">
+            {{ page.title }}
+          </div>
+          <div class="text-lg w-full font-light line-clamp-10">
+            {{ page.description }}
+          </div>
+          <div class="text-gray-400 text-right mt-2 text-sm font-light">
+            {{ date }} · {{ read }}
+          </div>
         </div>
       </a>
     </div>

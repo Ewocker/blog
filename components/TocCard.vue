@@ -1,9 +1,7 @@
 <script setup lang="ts" >
-import type { Page, Meta } from 'type/nuxt-content-type'
-import { getPageDate } from '~/utils/nuxt-content'
-import { getHumanDate } from '~/utils/date'
+import type { Page } from 'type/nuxt-content-type'
 
-const props = defineProps({
+defineProps({
   page: {
     type: Object as PropType<Page>,
     required: true
@@ -36,17 +34,6 @@ const props = defineProps({
     <slot />
   </div>
 </template>
-
-<!-- <a v-if="page.description"
-                   :href="page._path">
-                  <div class="text-md w-full font-light line-clamp-3">
-                    {{ page.description }}
-                  </div>
-                </a>
-
-                <div class="text-gray-400 text-left mt-2 text-sm font-light">
-                  {{ date }} · {{ read }}
-                </div> -->
 
 <style scoped>
 .img-card {
