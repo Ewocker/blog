@@ -62,7 +62,6 @@ const featuredPost = posts.value![0]!
 }
 
 .grid-feature {
-  padding: 2rem;
   grid-area: feature;
   display: grid;
   justify-items: center;
