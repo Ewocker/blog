@@ -66,7 +66,8 @@ const featuredPost = posts.value![0]!
   display: grid;
   justify-items: center;
   align-items: center;
-  margin: 0 5rem;
+  margin-top: 1rem;
+  padding: 0rem 2rem;
 }
 
 .grid-post {
@@ -83,6 +84,10 @@ const featuredPost = posts.value![0]!
   .grid-post {
     padding: 1rem;
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .grid-feature {
+    padding: 1rem;
   }
 }
 
