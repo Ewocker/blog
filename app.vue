@@ -1,4 +1,5 @@
-<script setup>
+<script setup lang="ts">
+const GoogleAnalyticsID = 'G-83X19MTNFC'
 useHead({
   meta: [{
     name: 'og:site_name',
@@ -9,7 +10,24 @@ useHead({
   }, {
     name: 'robots',
     content: 'index, follow'
-  }]
+  }],
+  // Google Analytics
+  script: [
+    {
+      tagPosition: 'bodyOpen',
+      src: `https://www.googletagmanager.com/gtag/js?id=${GoogleAnalyticsID}`,
+      async: true,
+    },
+    {
+      tagPosition: 'bodyOpen',
+      innerHTML: `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '${GoogleAnalyticsID}');
+      `
+    }
+  ],
 })
 </script>
 
