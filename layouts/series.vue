@@ -1,15 +1,13 @@
 <script setup lang="ts">
 import type { Page } from 'type/nuxt-content-type'
 const route = useRoute()
-const paths = route.path.split('/').filter(o => o !== '')
-const seriesName = paths[paths.length - 1]
 
 type Content = { page: Ref<Page> }
 const { page }: Content = useContent()
 
 const { data } = await useAsyncData(() => {
   // use custom type as nuxt-content does not implement type well
-  return queryContent(`/blog/${seriesName}`)
+  return queryContent(route.path)
     .where({ layout: { $ne: 'series' } })
     .find() as unknown as Promise<Array<Page>>
 })

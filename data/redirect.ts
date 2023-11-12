@@ -2,8 +2,7 @@ import { NitroConfig } from 'nitropack'
 
 const redirect: NitroConfig['routeRules'] = {
   // about
-  '/who-am-i/**': { redirect: '/about' },
-  '/author/siliconvalleykittycatengineer/**': { redirect: '/about' },
+  '/who-am-i/**': { redirect: '/author/siliconvalleykittycatengineer' },
   // blog
   '/catalog/**': { redirect: '/blog' },
   // proofpoint-internship
