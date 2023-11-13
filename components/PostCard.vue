@@ -2,6 +2,7 @@
 import type { Page, Meta } from 'type/nuxt-content-type'
 import { getPageDate } from '~/utils/nuxt-content'
 import { getHumanDate } from '~/utils/date'
+import { computeImageSrc } from '~/utils/image'
 
 const props = defineProps({
   page: {
@@ -14,11 +15,14 @@ const props = defineProps({
   },
 })
 
-
 const getMeta = (name: string): Meta | undefined =>
   props.page.head?.meta?.find((o: any) => o.name === name)
 const date = getHumanDate(getPageDate(props.page))
 const read = getMeta('read')?.content
+// a workaround for index page not having index in path
+let path = props.page._path
+if (props.page.layout === 'series') path += '/index'
+const computedImageSrc = computed(computeImageSrc(props.page.image.src, path))
 </script>
 
 <template>
@@ -34,7 +38,7 @@ const read = getMeta('read')?.content
        :href="page._path">
       <div
            class="group flex justify-center bg-gray-400 text-center relative overflow-hidden rounded-md cursor-pointer h-80 w-full">
-        <img :src="page.image.src"
+        <img :src="computedImageSrc"
              :alt="page.image.alt"
              class="rounded-md object-cover ease-in-out duration-500 group-hover:rotate-6 group-hover:scale-125 w-full" />
         <div class="absolute bg-black w-full h-full opacity-0 transition-opacity duration-500 group-hover:opacity-50" />

@@ -2,6 +2,7 @@
 import type { Page, Toc } from '~/type/nuxt-content-type'
 import authors from '~/components/BlogAuthor/data'
 import { getPageMeta, getPageDate } from '~/utils/nuxt-content'
+import { computeImageSrc } from '~/utils/image'
 
 type Content = {
   page: Ref<Page>;
@@ -10,6 +11,7 @@ type Content = {
   toc: Ref<Toc>;
 }
 
+const route = useRoute()
 const { page, toc, prev, next }: Content = useContent()
 const authorName = getPageMeta(page.value, 'author')?.content || '小貓貓工程師'
 const author = authors.get(authorName)
@@ -18,6 +20,7 @@ const read = getPageMeta(page.value, 'read')?.content
 const keywords = page.value.keywords
 const series = page.value.series
 const hero = page.value.image
+const heroSrc = computed(computeImageSrc(hero.src, route.path))
 
 // Add more to meta tag head
 useHead({
@@ -67,7 +70,7 @@ useHead({
                   :date="date!"
                   class="w-full" />
 
-      <img :src="hero.src"
+      <img :src="heroSrc"
            :alt="hero.alt"
            class="mt-0 hero w-full" />
 

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Page } from 'type/nuxt-content-type'
+import { computeImageSrc } from '~/utils/image'
 const route = useRoute()
 
 type Content = { page: Ref<Page> }
@@ -11,6 +12,7 @@ const { data } = await useAsyncData(() => {
     .where({ layout: { $ne: 'series' } })
     .find() as unknown as Promise<Array<Page>>
 })
+const computedImageSrc = computed(computeImageSrc(page.value.image.src, route.path + '/index'))
 </script>
 
 <template>
@@ -28,7 +30,7 @@ const { data } = await useAsyncData(() => {
     </div>
     <!-- Hero Image -->
     <div class="md:w-2/3">
-      <img :src="page.image.src"
+      <img :src="computedImageSrc"
            :alt="page.image.alt"
            class="hero mx-auto object-cover hidden md:block"
            style="max-height: 30rem;" />

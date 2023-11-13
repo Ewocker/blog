@@ -18,14 +18,15 @@ const featuredPost = posts.value![0]!
              class="w-40 mt-20"
              alt="logo">
       </div>
-      <p class="w-full text-center text-3xl text-white mt-36 font-family-edu">
+      <p
+         class="w-full text-center lg:text-5xl text-4xl font-semibold text-white lg:pt-36 md:p-28 pt-28 px-6 font-family-cyly">
         分享小貓貓工程師走在矽谷路上遇見的大小事～
       </p>
     </div>
     <div class="grid-feature">
       <!-- show feature post style only on md above -->
       <FeatureCard :page="featuredPost"
-                   class="hidden lg:flex" />
+                   class="hidden lg:flex mb-2" />
       <PostCard :page="featuredPost"
                 class="lg:hidden" />
     </div>
@@ -66,7 +67,7 @@ const featuredPost = posts.value![0]!
   display: grid;
   justify-items: center;
   align-items: center;
-  margin-top: 1rem;
+  margin-top: 2rem;
   padding: 0rem 2rem;
 }
 
@@ -78,6 +79,17 @@ const featuredPost = posts.value![0]!
   justify-items: center;
   align-items: center;
   row-gap: 2rem;
+}
+
+@media (min-width: 900px) {
+  .grid-post {
+    padding: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid-feature {
+    padding: 1rem;
+  }
 }
 
 @media (min-width: 1280px) {

@@ -1,19 +1,8 @@
 <template>
-  <section>
-    <img :src="refinedSrc"
-         :alt="alt"
-         :width="width"
-         :height="height"
-         :style="showAlt || note ? 'margin-bottom: 2px;' : ''">
-    <div v-if="showAlt"
-         class="font-medium text-xs text-center text-gray-400 not-prose">
-      {{ alt }}
-    </div>
-    <Note v-if="note"
-          class="text-sm mt-4 italic text-gray-500">
-      {{ note }}
-    </Note>
-  </section>
+  <img :src="refinedSrc"
+       :alt="alt"
+       :width="width"
+       :height="height" />
 </template>
 
 <script setup lang="ts">
@@ -27,14 +16,6 @@ const props = defineProps({
   alt: {
     type: String,
     default: ''
-  },
-  note: {
-    type: String,
-    default: ''
-  },
-  showAlt: {
-    type: Boolean,
-    default: false
   },
   width: {
     type: [String, Number],
