@@ -5,7 +5,7 @@ const props = defineProps({
     default: 'text-sm'
   }
 })
-const classes = computed(() => `border-l-4 border-zinc-400 px-4 font-base ${props.class}`)
+const classes = computed(() => `border-l-2 border-zinc-400 px-4 font-base ${props.class}`)
 </script>
 
 <template>

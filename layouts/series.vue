@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import type { Page } from 'type/nuxt-content-type'
+import { computeImageSrc } from '~/utils/image'
 const route = useRoute()
-const paths = route.path.split('/').filter(o => o !== '')
-const seriesName = paths[paths.length - 1]
 
 type Content = { page: Ref<Page> }
 const { page }: Content = useContent()
 
 const { data } = await useAsyncData(() => {
   // use custom type as nuxt-content does not implement type well
-  return queryContent(`/blog/${seriesName}`)
+  return queryContent(route.path)
     .where({ layout: { $ne: 'series' } })
     .find() as unknown as Promise<Array<Page>>
 })
+const computedImageSrc = computed(computeImageSrc(page.value.image.src, route.path + '/index'))
 </script>
 
 <template>
@@ -30,7 +30,7 @@ const { data } = await useAsyncData(() => {
     </div>
     <!-- Hero Image -->
     <div class="md:w-2/3">
-      <img :src="page.image.src"
+      <img :src="computedImageSrc"
            :alt="page.image.alt"
            class="hero mx-auto object-cover hidden md:block"
            style="max-height: 30rem;" />
