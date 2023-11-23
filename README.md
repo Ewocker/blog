@@ -43,3 +43,14 @@ Checkout the [deployment documentation](https://v3.nuxtjs.org/docs/deployment) f
 
 ## Issues
 - Code Highlight: https://github.com/nuxt/content/issues/1490
+
+
+# Contribution
+Pull the repository locally.
+```
+git clone git@github.com:Ewocker/blog.git
+cd blog
+yarn dev
+```
+
+localhost:3000/blog/_storybook
