@@ -29,10 +29,10 @@ useHead({
     content: 'article'
   }, {
     property: 'article:publisher',
-    content: author?.facebook
+    content: author?.profileUrl
   }, {
     property: 'article:author',
-    content: author?.facebook
+    content: author?.profileUrl
   }]
 })
 </script>
