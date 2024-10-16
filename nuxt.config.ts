@@ -4,16 +4,20 @@ import redirect from './data/redirect'
 
 export default defineNuxtConfig({
   modules: ['@nuxt/content', '@nuxtjs/tailwindcss'],
+
   css: [
     '~/assets/fonts/cyly/cyly.css', // font
   ],
+
   content: {
     documentDriven: {
       // FOR SEO meta tag or:url
       host: 'https://blog.ewocker.com',
     },
   },
+
   routeRules: redirect,
+
   tailwindcss: {
     config: {
       plugins: [tailwindTypography, tailwindLineClamp],
@@ -52,4 +56,6 @@ export default defineNuxtConfig({
       },
     },
   },
+
+  compatibilityDate: '2024-10-15',
 })
