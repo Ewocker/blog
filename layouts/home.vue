@@ -6,7 +6,13 @@ const { data: posts } = await useAsyncData(() => {
   return queryContent('/blog/').where({ layout: { $ne: 'series' } }).limit(10).find() as unknown as Promise<Array<Page>>
 })
 
-const featuredPost = posts.value![0]!
+// Manually decide the featured post
+console.log(posts.value)
+const featuredPostNumber = 0
+const featuredPost = posts.value![featuredPostNumber]!
+
+// remove featured post from posts
+posts.value?.splice(featuredPostNumber, 1)
 </script>
 
 <template>
@@ -31,7 +37,7 @@ const featuredPost = posts.value![0]!
                 class="lg:hidden" />
     </div>
     <div class="grid-post">
-      <PostCard v-for="post in posts?.slice(1)"
+      <PostCard v-for="post in posts"
                 :key="post._id"
                 :page="post" />
     </div>
