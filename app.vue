@@ -32,11 +32,7 @@ useHead({
 </script>
 
 <template>
-  <div>
-    <Header />
-    <NuxtPage />
-    <Copyright class="text-right px-4 py-4" />
-  </div>
+  <NuxtPage />
 </template>
 
 <style>

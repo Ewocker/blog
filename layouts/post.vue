@@ -38,57 +38,59 @@ useHead({
 </script>
 
 <template>
-  <div>
-    <div class="container px-3 pt-12 mx-auto prose prose-img:mx-auto flex flex-wrap">
+  <BlogLayout>
+    <div>
+      <div class="container px-3 pt-12 mx-auto prose prose-img:mx-auto flex flex-wrap">
 
-      <!-- {{ config }} -->
-      <div class="mb-0 w-full pb-2">
-        <div v-if="series"
-             class="text-gray-400 text-md font-medium mb-2 hover:cursor-pointer">
-          # {{ series }}
-          <!-- TODO Link -->
+        <!-- {{ config }} -->
+        <div class="mb-0 w-full pb-2">
+          <div v-if="series"
+               class="text-gray-400 text-md font-medium mb-2 hover:cursor-pointer">
+            # {{ series }}
+            <!-- TODO Link -->
+          </div>
+          <div class="text-5xl font-bold">
+            {{ page.title }}
+            <!-- TODO Link -->
+          </div>
         </div>
-        <div class="text-5xl font-bold">
-          {{ page.title }}
+
+        <div class="pb-4 w-full flex flex-wrap">
           <!-- TODO Link -->
+          <Tag v-for="keyword in keywords"
+               :key="keyword"
+               :name="keyword" />
         </div>
+
+        <div class="text-lg w-full">
+          {{ page.description }}
+        </div>
+
+        <BlogAuthor :author="author!"
+                    :read="read!"
+                    :date="date!"
+                    class="w-full" />
+
+        <img :src="heroSrc"
+             :alt="hero.alt"
+             class="mt-0 hero w-full" />
+
+        <Expandable name="目錄"
+                    class="mb-2">
+          <TableOfContent :toc="toc"
+                          class="justify-self-start w-full" />
+        </Expandable>
+        <slot />
       </div>
 
-      <div class="pb-4 w-full flex flex-wrap">
-        <!-- TODO Link -->
-        <Tag v-for="keyword in keywords"
-             :key="keyword"
-             :name="keyword" />
+      <div class="flex flex-wrap justify-evenly items-start md:mx-15 px-4">
+        <PostCard v-if="prev"
+                  :page="prev"
+                  title="< 上一篇" />
+        <PostCard v-if="next"
+                  :page="next"
+                  title="下一篇 >" />
       </div>
-
-      <div class="text-lg w-full">
-        {{ page.description }}
-      </div>
-
-      <BlogAuthor :author="author!"
-                  :read="read!"
-                  :date="date!"
-                  class="w-full" />
-
-      <img :src="heroSrc"
-           :alt="hero.alt"
-           class="mt-0 hero w-full" />
-
-      <Expandable name="目錄"
-                  class="mb-2">
-        <TableOfContent :toc="toc"
-                        class="justify-self-start w-full" />
-      </Expandable>
-      <slot />
     </div>
-
-    <div class="flex flex-wrap justify-evenly items-start md:mx-15 px-4">
-      <PostCard v-if="prev"
-                :page="prev"
-                title="< 上一篇" />
-      <PostCard v-if="next"
-                :page="next"
-                title="下一篇 >" />
-    </div>
-  </div>
+  </BlogLayout>
 </template>

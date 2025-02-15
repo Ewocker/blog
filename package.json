@@ -15,5 +15,6 @@
     "nuxt": "^3.13.2",
     "vue-use": "^0.2.0"
   },
-  "version": "0.0.0"
+  "version": "0.0.0",
+  "dependencies": {}
 }

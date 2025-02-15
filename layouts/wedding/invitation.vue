@@ -16,39 +16,34 @@ posts.value?.splice(featuredPostNumber, 1)
 </script>
 
 <template>
-  <BlogLayout>
-    <div class="grid-container">
-      <!-- Banner -->
-      <div class="grid-banner">
-        <div class="w-full flex justify-center items-end">
-          <img src="/common/logo-inverted.png"
-               class="w-40 mt-20"
-               alt="logo">
-        </div>
-        <p
-           class="w-full text-center lg:text-5xl text-4xl font-semibold text-white lg:pt-36 md:p-28 pt-28 px-6 font-family-cyly">
-          分享小貓貓工程師走在矽谷路上遇見的大小事～
+  <div class="grid-container">
+    <!-- Banner -->
+    <div class="grid-banner">
+      <div class="w-full flex justify-center items-end">
+<!--        <img src="/common/logo-inverted.png"-->
+<!--             class="w-40 mt-20"-->
+<!--             alt="logo">-->
+      </div>
+      <TypingEffect>
+        <p class="w-full text-center lg:text-8xl text-6xl font-semibold text-white lg:pt-36 md:p-28 pt-28 px-6 font-family-cyly">
+          We are Married! 🎉
         </p>
-      </div>
-      <div class="grid-feature">
-        <!-- show feature post style only on md above -->
-        <FeatureCard :page="featuredPost"
-                     class="hidden lg:flex mb-2" />
-        <PostCard :page="featuredPost"
-                  class="lg:hidden" />
-      </div>
-      <div class="grid-post">
-        <PostCard v-for="post in posts"
-                  :key="post._id"
-                  :page="post" />
-      </div>
-      <div class="grid-more font-family-edu text-center mb-10 text-4xl text-blue-700 hover:text-blue-500">
-        <a href="/blog">
-          Read more...
-        </a>
-      </div>
+      </TypingEffect>
+
+      <TypingEffect>
+        <p class="w-full text-center lg:text-8xl text-6xl font-semibold text-white lg:pt-36 md:p-28 pt-28 px-6 font-family-cyly">
+
+        </p>
+      </TypingEffect>
     </div>
-  </BlogLayout>
+<!--    <div class="grid-feature">-->
+<!--      &lt;!&ndash; show feature post style only on md above &ndash;&gt;-->
+<!--      <FeatureCard :page="featuredPost"-->
+<!--                   class="hidden lg:flex mb-2" />-->
+<!--      <PostCard :page="featuredPost"-->
+<!--                class="lg:hidden" />-->
+<!--    </div>-->
+  </div>
 </template>
 
 <!-- /bg-center flex justify-center items-center -->
@@ -65,9 +60,10 @@ posts.value?.splice(featuredPostNumber, 1)
 
 .grid-banner {
   grid-area: banner;
-  height: 30rem;
-  background-image: url('/common/hero.jpeg');
+  height: 50rem;
+  background-image: url('/wedding/ZFC_3354.jpg');
   background-position: center;
+  background-size: cover;
 }
 
 .grid-feature {

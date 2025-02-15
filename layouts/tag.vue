@@ -15,21 +15,23 @@ const { data } = await useAsyncData(() => {
 </script>
 
 <template>
-  <div class="m-4 md:m-10">
-    <div class="font-family-edu text-5xl mb-16 font-semibold text-orange-900 text-center">
-      <span>
-        All
-      </span>
-      <span class="underline"> {{ tag }} </span>
-      <span>
-        posts
-      </span>
+  <BlogLayout>
+    <div class="m-4 md:m-10">
+      <div class="font-family-edu text-5xl mb-16 font-semibold text-orange-900 text-center">
+        <span>
+          All
+        </span>
+        <span class="underline"> {{ tag }} </span>
+        <span>
+          posts
+        </span>
+      </div>
+      <div class="flex flex-wrap justify-evenly items-start md:mx-15">
+        <PostCard v-for="post in data"
+                  :key="post._id"
+                  :page="post"
+                  class="w-full mb-6" />
+      </div>
     </div>
-    <div class="flex flex-wrap justify-evenly items-start md:mx-15">
-      <PostCard v-for="post in data"
-                :key="post._id"
-                :page="post"
-                class="w-full mb-6" />
-    </div>
-  </div>
+  </BlogLayout>
 </template>
