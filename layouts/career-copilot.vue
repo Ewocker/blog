@@ -1,8 +1,8 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="w-full h-[calc(100vh-120px)]">
-    <div class="bg-gray-100 p-6">
+  <div class="w-full flex flex-col h-screen">
+    <div class="bg-gray-100 p-6 lg:block hidden">
       <h1 class="text-2xl font-bold mb-1">Career Copilot</h1>
       <p class="text-gray-700">
         Career Copilot is an AI-powered resume assistant that transforms your
@@ -11,15 +11,21 @@
         resume instead of scanning a static PDF.
       </p>
     </div>
-    <iframe
-      src="https://ewocker-careercopilot.hf.space"
-      class="w-full h-[calc(100%-120px)] border-0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      title="Career Copilot"
-      allowfullscreen
-    />
+    <div class="flex-1 min-h-0 h-screen lg:h-auto">
+      <iframe
+        src="https://ewocker-careercopilot.hf.space"
+        class="w-full h-full border-0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        title="Career Copilot"
+        allowfullscreen
+      />
+    </div>
   </div>
 </template>
 
-<!-- /bg-center flex justify-center items-center -->
-<style scoped></style>
+<style scoped>
+/* Add bottom margin to avoid copyright overlap */
+.flex-1 {
+  margin-bottom: 60px;
+}
+</style>
