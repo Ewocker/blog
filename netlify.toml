@@ -1,0 +1,6 @@
+[build]
+  command = "nuxt generate"
+  publish = ".output/public"
+
+[context.deploy-preview]
+  command = "nuxt generate"
