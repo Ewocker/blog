@@ -1,0 +1,42 @@
+name: Notify Blog Preview
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    # Only run for blog post PRs (created by blog-publisher skill)
+    if: contains(github.event.pull_request.body, 'blog-publisher skill')
+    steps:
+      - name: Wait for Netlify deploy
+        uses: probots-io/wait-for-netlify-action@v1
+        id: netlify
+        with:
+          site_id: ${{ secrets.NETLIFY_SITE_ID }}
+          max_timeout: 300
+        env:
+          NETLIFY_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
+
+      - name: Send email notification
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{ secrets.GMAIL_USERNAME }}
+          password: ${{ secrets.GMAIL_APP_PASSWORD }}
+          subject: "[Blog Preview] ${{ github.event.pull_request.title }}"
+          to: chockerlin@gmail.com
+          from: "Blog Publisher <${{ secrets.GMAIL_USERNAME }}>"
+          body: |
+            A new blog post is ready for review!
+
+            **Title:** ${{ github.event.pull_request.title }}
+
+            **Preview URL:** ${{ steps.netlify.outputs.url }}
+
+            **Pull Request:** ${{ github.event.pull_request.html_url }}
+
+            ---
+            Review the preview and merge the PR to publish.
