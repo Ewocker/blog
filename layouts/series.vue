@@ -1,30 +1,29 @@
 <script setup lang="ts">
-import type { Page } from 'type/nuxt-content-type'
 import { computeImageSrc } from '~/utils/image'
 import { getPageDate } from '~/utils/nuxt-content'
 import { getHumanDate } from '~/utils/date'
 
 const route = useRoute()
-
-type Content = { page: Ref<Page> }
-const { page }: Content = useContent()
+const page = inject<Ref<any>>('content-page')!
 
 const { data: episodes } = await useAsyncData(() =>
-  queryContent(route.path)
-    .where({ layout: { $ne: 'series' } })
-    .find() as unknown as Promise<Array<Page>>
+  queryCollection('content')
+    .path(route.path)
+    .where('layout', '<>', 'series')
+    .all()
 )
 
 const computedHeroSrc = computed(computeImageSrc(page.value.image?.src, route.path + '/index'))
 
-function getEpisodeNumber(ep: Page): string {
-  const file = ep._file?.split('/').pop()?.replace('.md', '') ?? ''
+function getEpisodeNumber(ep: any): string {
+  const stem = ep.stem || ''
+  const file = stem.split('/').pop() ?? ''
   return file.replace(/^0*/, '') || '00'
 }
 
-function getEpisodeImageSrc(ep: Page): string {
+function getEpisodeImageSrc(ep: any): string {
   if (!ep.image?.src) return ''
-  return computeImageSrc(ep.image.src, ep._path!!)()
+  return computeImageSrc(ep.image.src, ep.path)()
 }
 </script>
 
@@ -33,9 +32,9 @@ function getEpisodeImageSrc(ep: Page): string {
     <!-- Full-width Hero -->
     <div class="relative overflow-hidden bg-gradient-to-br from-[#1a1a2e] to-[#2d1b69] py-16 px-6">
       <div class="relative z-10 max-w-3xl mx-auto text-center">
-        <h1 class="text-3xl lg:text-4xl font-bold text-white mb-2">{{ page.series || page.title }}</h1>
+        <h1 class="text-3xl lg:text-4xl font-bold text-white mb-2">{{ page?.series || page?.title }}</h1>
         <div class="text-sm text-gray-400 mb-4">{{ episodes?.length }} episodes · by 小貓貓工程師</div>
-        <p class="text-sm text-gray-300 max-w-lg mx-auto leading-relaxed">{{ page.description }}</p>
+        <p class="text-sm text-gray-300 max-w-lg mx-auto leading-relaxed">{{ page?.description }}</p>
       </div>
     </div>
 
@@ -43,7 +42,7 @@ function getEpisodeImageSrc(ep: Page): string {
     <div class="max-w-3xl mx-auto px-6 py-3 text-sm text-gray-500 dark:text-gray-400">
       <a href="/blog" class="text-purple-600 dark:text-purple-400 hover:underline">Blog</a>
       <span class="mx-2">/</span>
-      <span>{{ page.series || page.title }}</span>
+      <span>{{ page?.series || page?.title }}</span>
     </div>
 
     <!-- Timeline -->
@@ -51,7 +50,7 @@ function getEpisodeImageSrc(ep: Page): string {
       <!-- Timeline line -->
       <div class="absolute left-[2.15rem] top-0 bottom-0 w-0.5 bg-gradient-to-b from-purple-500 to-purple-200 dark:from-purple-600 dark:to-purple-900 hidden md:block"></div>
 
-      <div v-for="(ep, idx) in episodes" :key="ep._id" class="relative flex gap-4 mb-6">
+      <div v-for="(ep, idx) in episodes" :key="ep.id" class="relative flex gap-4 mb-6">
         <!-- Dot -->
         <div class="hidden md:flex flex-shrink-0 w-10 h-10 rounded-full bg-purple-600 text-white text-sm font-bold items-center justify-center z-10 ring-4 ring-gray-50 dark:ring-gray-950">
           {{ getEpisodeNumber(ep) }}
@@ -59,7 +58,7 @@ function getEpisodeImageSrc(ep: Page): string {
 
         <!-- Card -->
         <a
-          :href="ep._path"
+          :href="ep.path"
           class="flex-1 flex gap-4 p-4 bg-white dark:bg-gray-900 rounded-xl shadow-sm hover:shadow-lg hover:translate-x-2 transition-all"
         >
           <img
@@ -74,7 +73,7 @@ function getEpisodeImageSrc(ep: Page): string {
             </span>
             <div class="text-base font-semibold text-gray-900 dark:text-gray-100">{{ ep.title }}</div>
             <div class="text-sm text-gray-500 dark:text-gray-400 mt-1 line-clamp-2">{{ ep.description }}</div>
-            <div class="text-xs text-gray-400 mt-2">{{ getHumanDate(getPageDate(ep)) }}</div>
+            <div class="text-xs text-gray-400 mt-2">{{ getHumanDate(getPageDate(ep as any)) }}</div>
           </div>
         </a>
       </div>

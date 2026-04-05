@@ -10,7 +10,7 @@ const props = defineProps({
 })
 
 // a workaround for index page not having index in path
-let path = props.page._path
+let path = props.page.path || props.page.path || page._path
 if (props.page.layout === 'series') path += '/index'
 const computedImageSrc = computed(computeImageSrc(props.page.image.src, path))
 </script>
@@ -19,7 +19,7 @@ const computedImageSrc = computed(computeImageSrc(props.page.image.src, path))
   <div
        class="border flex gap-4 m-2 rounded-md overflow-hidden hover:cursor-pointer transition duration-300 hover:shadow-black/50 ease-in-out hover:shadow-md">
     <a v-if="page.image"
-       :href="page._path">
+       :href="page.path || page._path">
       <div class="group flex justify-center bg-gray-400 text-center relative overflow-hidden cursor-pointer w-52 h-32">
         <img :src="computedImageSrc"
              :alt="page.image.alt"
@@ -29,7 +29,7 @@ const computedImageSrc = computed(computeImageSrc(props.page.image.src, path))
     </a>
 
     <a v-if="page.title"
-       :href="page._path">
+       :href="page.path || page._path">
       <div class="text-4xl font-semibold font-family-cyly pt-2 w-full">
         {{ page.title }}
       </div>

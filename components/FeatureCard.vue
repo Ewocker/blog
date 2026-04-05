@@ -15,11 +15,11 @@ const getMeta = (name: string): Meta | undefined =>
   props.page.head?.meta?.find((o: any) => o.name === name)
 const date = getHumanDate(getPageDate(props.page))
 const read = getMeta('read')?.content
-const computedImageSrc = computed(computeImageSrc(props.page.image?.src, props.page._path))
+const computedImageSrc = computed(computeImageSrc(props.page.image?.src, props.page.path || props.page.path || page._path))
 </script>
 
 <template>
-  <a :href="page._path" class="block">
+  <a :href="page.path || page._path" class="block">
     <div class="flex flex-col md:flex-row gap-4 p-4 bg-white dark:bg-gray-900 rounded-2xl shadow-sm hover:shadow-lg transition-all">
       <div v-if="page.image" class="md:w-1/2 overflow-hidden rounded-xl">
         <img

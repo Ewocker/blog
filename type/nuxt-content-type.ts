@@ -18,35 +18,48 @@ export interface Meta {
   content: string
 }
 
+/**
+ * Page type for @nuxt/content v3
+ * Standard fields are top-level, custom frontmatter fields are also top-level
+ * thanks to the collection schema definition.
+ */
 export interface Page {
-  _path: string
-  _dir: string
-  _draft: boolean
-  _partial: boolean
-  _locale: string
-  _empty: boolean
-  navigation: boolean
+  // v3 standard fields
+  id: string
+  path: string
+  stem: string
+  extension: string
   title: string
-  series: string
   description: string
-  keywords: Array<string>
+  body: any
+  seo: {
+    title?: string
+    description?: string
+    [key: string]: unknown
+  }
+  navigation?: boolean
+
+  // Custom fields from collection schema
   layout: string
+  series: string
   featured: boolean
+  keywords: Array<string>
   image: {
     src: string
     alt: string
+    width?: number
+    height?: number
   }
   head: {
     meta: Meta[]
   }
-  body: {
-    type: string
-    children: Link[]
-    toc: Toc
-  }
-  _type: string
-  _id: string
-  _source: string
-  _file: string
-  _extension: string
+  meta: Record<string, unknown>
+
+  // v2 compat aliases (deprecated, for gradual migration)
+  /** @deprecated Use `id` */
+  _id?: string
+  /** @deprecated Use `path` */
+  _path?: string
+  /** @deprecated Use `stem` + `extension` */
+  _file?: string
 }

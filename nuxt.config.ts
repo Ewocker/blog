@@ -7,12 +7,7 @@ export default defineNuxtConfig({
     '~/assets/fonts/cyly/cyly.css', // font
   ],
 
-  content: {
-    documentDriven: {
-      // FOR SEO meta tag or:url
-      host: 'https://blog.ewocker.com',
-    },
-  },
+  content: {},
 
   routeRules: redirect,
 

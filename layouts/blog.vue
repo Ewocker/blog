@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { Page } from 'type/nuxt-content-type'
 import { getPageDate } from '~/utils/nuxt-content'
 import { getHumanDate } from '~/utils/date'
 import { computeImageSrc } from '~/utils/image'
@@ -8,18 +7,25 @@ const route = useRoute()
 const activeView = ref<'series' | 'latest'>('series')
 
 const { data: seriesData } = await useAsyncData('series', () =>
-  queryContent(route.path).where({ layout: { $eq: 'series' } }).find() as unknown as Promise<Array<Page>>
+  queryCollection('content')
+    .path(route.path)
+    .where('layout', '=', 'series')
+    .all()
 )
 
 const { data: allPosts } = await useAsyncData('allPosts', () =>
-  queryContent('/blog/').where({ layout: { $ne: 'series' } }).limit(20).find() as unknown as Promise<Array<Page>>
+  queryCollection('content')
+    .path('/blog/')
+    .where('layout', '<>', 'series')
+    .limit(20)
+    .all()
 )
 
 const recentPosts = computed(() => allPosts.value?.slice(0, 5))
 
 const tags = computed(() => {
   const tagSet = new Set<string>()
-  seriesData.value?.forEach(page => page.keywords?.forEach(tag => tagSet.add(tag)))
+  seriesData.value?.forEach((page: any) => page.keywords?.forEach((tag: string) => tagSet.add(tag)))
   return Array.from(tagSet).sort()
 })
 
@@ -27,10 +33,11 @@ const episodeCounts = ref<Record<string, number>>({})
 onMounted(async () => {
   if (!seriesData.value) return
   for (const series of seriesData.value) {
-    const episodes = await queryContent(series._path!)
-      .where({ layout: { $ne: 'series' } })
-      .find()
-    episodeCounts.value[series._path!] = episodes.length
+    const episodes = await queryCollection('content')
+      .path(series.path)
+      .where('layout', '<>', 'series')
+      .all()
+    episodeCounts.value[series.path] = episodes.length
   }
 })
 </script>
@@ -68,20 +75,20 @@ onMounted(async () => {
         <template v-if="activeView === 'series'">
           <a
             v-for="series in seriesData"
-            :key="series._id"
-            :href="series._path"
+            :key="series.id"
+            :href="series.path"
             class="flex gap-4 p-4 mb-3 bg-white dark:bg-gray-900 rounded-xl shadow-sm hover:shadow-md hover:translate-x-1 transition-all"
           >
             <img
               v-if="series.image"
-              :src="computeImageSrc(series.image.src, series._path + '/index')()"
+              :src="computeImageSrc(series.image.src, series.path + '/index')()"
               :alt="series.image?.alt"
               class="w-20 h-20 rounded-xl object-cover flex-shrink-0"
             >
             <div class="flex-1 min-w-0">
               <div class="text-base font-semibold text-gray-900 dark:text-gray-100">{{ series.series || series.title }}</div>
               <div class="text-xs text-purple-600 dark:text-purple-400 mt-1">
-                {{ episodeCounts[series._path!] ?? '...' }} episodes
+                {{ episodeCounts[series.path] ?? '...' }} episodes
               </div>
               <div class="text-sm text-gray-500 dark:text-gray-400 mt-1 line-clamp-1">{{ series.description }}</div>
             </div>
@@ -92,14 +99,14 @@ onMounted(async () => {
         <template v-else>
           <a
             v-for="post in allPosts"
-            :key="post._id"
-            :href="post._path"
+            :key="post.id"
+            :href="post.path"
             class="flex gap-4 p-4 mb-3 bg-white dark:bg-gray-900 rounded-xl shadow-sm hover:shadow-md hover:translate-x-1 transition-all"
           >
             <div class="flex-1 min-w-0">
               <div class="text-base font-semibold text-gray-900 dark:text-gray-100">{{ post.title }}</div>
               <div class="text-sm text-gray-500 dark:text-gray-400 mt-1 line-clamp-1">{{ post.description }}</div>
-              <div class="text-xs text-gray-400 mt-2">{{ getHumanDate(getPageDate(post)) }}</div>
+              <div class="text-xs text-gray-400 mt-2">{{ getHumanDate(getPageDate(post as any)) }}</div>
             </div>
             <div class="flex items-center text-gray-300 dark:text-gray-600 text-lg">→</div>
           </a>
@@ -112,12 +119,12 @@ onMounted(async () => {
           <div class="space-y-2">
             <a
               v-for="post in recentPosts"
-              :key="post._id"
-              :href="post._path"
+              :key="post.id"
+              :href="post.path"
               class="block py-2 border-b border-gray-100 dark:border-gray-800 last:border-0"
             >
               <div class="text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">{{ post.title }}</div>
-              <div class="text-xs text-gray-400 mt-1">{{ getHumanDate(getPageDate(post)) }}</div>
+              <div class="text-xs text-gray-400 mt-1">{{ getHumanDate(getPageDate(post as any)) }}</div>
             </a>
           </div>
         </div>

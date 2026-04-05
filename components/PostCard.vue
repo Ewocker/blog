@@ -20,7 +20,7 @@ const getMeta = (name: string): Meta | undefined =>
 const date = getHumanDate(getPageDate(props.page))
 const read = getMeta('read')?.content
 // a workaround for index page not having index in path
-let path = props.page._path
+let path = props.page.path || props.page._path
 if (props.page.layout === 'series') path += '/index'
 const computedImageSrc = computed(computeImageSrc(props.page.image?.src, path))
 </script>
@@ -28,14 +28,14 @@ const computedImageSrc = computed(computeImageSrc(props.page.image?.src, path))
 <template>
   <div class="post-card">
     <a v-if="title"
-       :href="page._path">
+       :href="page.path || page._path">
       <div class="text-xl font-normal py-3 w-full text-center">
         {{ title }}
       </div>
     </a>
 
     <a v-if="page.image"
-       :href="page._path">
+       :href="page.path || page._path">
       <div
            class="group flex justify-center bg-gray-400 dark:bg-gray-700 text-center relative overflow-hidden rounded-md cursor-pointer h-80 w-full">
         <img :src="computedImageSrc"
@@ -46,14 +46,14 @@ const computedImageSrc = computed(computeImageSrc(props.page.image?.src, path))
     </a>
 
     <a v-if="page.title"
-       :href="page._path">
+       :href="page.path || page._path">
       <div class="text-3xl font-normal pt-2 w-full text-gray-900 dark:text-gray-100">
         {{ page.title }}
       </div>
     </a>
 
     <a v-if="page.description"
-       :href="page._path">
+       :href="page.path || page._path">
       <div class="text-md w-full font-light line-clamp-3 text-gray-600 dark:text-gray-400">
         {{ page.description }}
       </div>

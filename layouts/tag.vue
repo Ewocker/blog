@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { Page } from 'type/nuxt-content-type'
 import { getPageDate } from '~/utils/nuxt-content'
 import { getHumanDate } from '~/utils/date'
 import { computeImageSrc } from '~/utils/image'
@@ -8,23 +7,32 @@ const route = useRoute()
 const router = useRouter()
 const activeTag = computed(() => route.query.tag?.toString() || '')
 
-const { data: posts } = await useAsyncData(
-  `tag-${activeTag.value}`,
-  () => queryContent('/blog/')
-    .where({
-      keywords: { $contains: activeTag.value || 'nothingIsProvided' },
-      layout: { $ne: 'series' }
-    })
-    .find() as unknown as Promise<Array<Page>>,
-  { watch: [activeTag] }
+// Fetch all non-series blog posts, then filter by tag client-side
+// v3 queryCollection doesn't support $contains on JSON arrays directly
+const { data: allBlogPosts } = await useAsyncData('allBlogPosts', () =>
+  queryCollection('content')
+    .path('/blog/')
+    .where('layout', '<>', 'series')
+    .all()
 )
 
+const posts = computed(() => {
+  if (!activeTag.value || !allBlogPosts.value) return []
+  return allBlogPosts.value.filter((p: any) =>
+    p.keywords?.includes(activeTag.value)
+  )
+})
+
 const { data: allSeries } = await useAsyncData('allTags', () =>
-  queryContent('/blog/').where({ layout: 'series' }).find() as unknown as Promise<Array<Page>>
+  queryCollection('content')
+    .path('/blog/')
+    .where('layout', '=', 'series')
+    .all()
 )
+
 const allTags = computed(() => {
   const tagSet = new Set<string>()
-  allSeries.value?.forEach(page => page.keywords?.forEach(tag => tagSet.add(tag)))
+  allSeries.value?.forEach((page: any) => page.keywords?.forEach((tag: string) => tagSet.add(tag)))
   return Array.from(tagSet).sort()
 })
 
@@ -66,20 +74,20 @@ function switchTag(tag: string) {
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <a
           v-for="post in posts"
-          :key="post._id"
-          :href="post._path"
+          :key="post.id"
+          :href="post.path"
           class="bg-white dark:bg-gray-900 rounded-xl overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-1 transition-all"
         >
           <img
             v-if="post.image"
-            :src="computeImageSrc(post.image.src, post._path!!)()"
+            :src="computeImageSrc(post.image.src, post.path)()"
             :alt="post.image?.alt"
             class="w-full h-32 object-cover"
           >
           <div class="p-4">
             <div class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-1">{{ post.title }}</div>
             <div class="text-xs text-gray-500 dark:text-gray-400 line-clamp-2">{{ post.description }}</div>
-            <div class="text-xs text-gray-400 mt-2">{{ getHumanDate(getPageDate(post)) }}</div>
+            <div class="text-xs text-gray-400 mt-2">{{ getHumanDate(getPageDate(post as any)) }}</div>
           </div>
         </a>
       </div>

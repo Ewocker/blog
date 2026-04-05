@@ -1,17 +1,19 @@
 <script setup lang="ts">
-import type { Page } from 'type/nuxt-content-type'
-
 const { data: featuredPost } = await useAsyncData('featured', () =>
-  queryContent('/blog/')
-    .where({ featured: true, layout: 'post' })
-    .findOne() as unknown as Promise<Page>
+  queryCollection('content')
+    .path('/blog/')
+    .where('featured', '=', true)
+    .where('layout', '=', 'post')
+    .first()
 )
 
 const { data: latestPosts } = await useAsyncData('latest', () =>
-  queryContent('/blog/')
-    .where({ layout: { $ne: 'series' }, featured: { $ne: true } })
+  queryCollection('content')
+    .path('/blog/')
+    .where('layout', '<>', 'series')
+    .where('featured', '<>', true)
     .limit(4)
-    .find() as unknown as Promise<Array<Page>>
+    .all()
 )
 
 const firstPost = computed(() => latestPosts.value?.[0])
@@ -45,13 +47,13 @@ const stackedPosts = computed(() => latestPosts.value?.slice(1, 4))
         <div v-if="stackedPosts?.length" class="lg:col-span-2 flex flex-col gap-4">
           <a
             v-for="post in stackedPosts"
-            :key="post._id"
-            :href="post._path"
+            :key="post.id"
+            :href="post.path"
             class="flex gap-3 p-3 bg-white dark:bg-gray-900 rounded-xl shadow-sm hover:shadow-md hover:translate-x-1 transition-all"
           >
             <img
               v-if="post.image"
-              :src="post.image.src.startsWith('/') ? post.image.src : `${post._path}/${post.image.src}`"
+              :src="post.image.src.startsWith('/') ? post.image.src : `${post.path}/${post.image.src}`"
               :alt="post.image?.alt"
               class="w-14 h-14 rounded-lg object-cover flex-shrink-0"
             >

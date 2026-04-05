@@ -1,11 +1,14 @@
 <script setup lang="ts">
-const { navigation } = useContent()
 const colorMode = useColorMode()
+
+const { data: navigation } = await useAsyncData('navigation', () =>
+  queryCollectionNavigation('content')
+)
 
 const navItems = computed(() =>
   (navigation.value || []).map((nav: any) => ({
     label: nav.title,
-    to: nav._path,
+    to: nav.path,
   }))
 )
 
