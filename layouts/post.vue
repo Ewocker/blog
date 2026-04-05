@@ -38,8 +38,8 @@ useHead({
 </script>
 
 <template>
-  <div>
-    <div class="container px-3 pt-12 mx-auto prose prose-img:mx-auto flex flex-wrap">
+  <div class="min-h-screen bg-gray-50 dark:bg-gray-950">
+    <div class="container px-3 pt-12 mx-auto prose dark:prose-invert prose-img:mx-auto flex flex-wrap">
 
       <!-- {{ config }} -->
       <div class="mb-0 w-full pb-2">
@@ -48,7 +48,7 @@ useHead({
           # {{ series }}
           <!-- TODO Link -->
         </div>
-        <div class="text-5xl font-bold">
+        <div class="text-5xl font-bold text-gray-900 dark:text-gray-100">
           {{ page.title }}
           <!-- TODO Link -->
         </div>
@@ -61,7 +61,7 @@ useHead({
              :name="keyword" />
       </div>
 
-      <div class="text-lg w-full">
+      <div class="text-lg w-full text-gray-700 dark:text-gray-300">
         {{ page.description }}
       </div>
 
@@ -82,7 +82,7 @@ useHead({
       <slot />
     </div>
 
-    <div class="flex flex-wrap justify-evenly items-start md:mx-15 px-4">
+    <div class="flex flex-wrap justify-evenly items-start md:mx-15 px-4 pb-8">
       <PostCard v-if="prev"
                 :page="prev"
                 title="< 上一篇" />

@@ -37,7 +37,7 @@ const computedImageSrc = computed(computeImageSrc(props.page.image?.src, path))
     <a v-if="page.image"
        :href="page._path">
       <div
-           class="group flex justify-center bg-gray-400 text-center relative overflow-hidden rounded-md cursor-pointer h-80 w-full">
+           class="group flex justify-center bg-gray-400 dark:bg-gray-700 text-center relative overflow-hidden rounded-md cursor-pointer h-80 w-full">
         <img :src="computedImageSrc"
              :alt="page.image.alt"
              class="rounded-md object-cover ease-in-out duration-500 group-hover:rotate-6 group-hover:scale-125 w-full" />
@@ -47,14 +47,14 @@ const computedImageSrc = computed(computeImageSrc(props.page.image?.src, path))
 
     <a v-if="page.title"
        :href="page._path">
-      <div class="text-3xl font-normal pt-2 w-full">
+      <div class="text-3xl font-normal pt-2 w-full text-gray-900 dark:text-gray-100">
         {{ page.title }}
       </div>
     </a>
 
     <a v-if="page.description"
        :href="page._path">
-      <div class="text-md w-full font-light line-clamp-3">
+      <div class="text-md w-full font-light line-clamp-3 text-gray-600 dark:text-gray-400">
         {{ page.description }}
       </div>
     </a>
