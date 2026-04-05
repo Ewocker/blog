@@ -4,6 +4,7 @@ export default defineNuxtConfig({
   modules: ['@nuxt/content', '@nuxt/ui'],
 
   css: [
+    '~/assets/css/main.css',
     '~/assets/fonts/cyly/cyly.css', // font
   ],
 
