@@ -12,3 +12,6 @@ dist
 .vscode
 .superpowers
 .cursor
+
+.playwright-mcp
+.data
