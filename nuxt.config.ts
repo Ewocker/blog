@@ -1,9 +1,7 @@
-import tailwindTypography from '@tailwindcss/typography'
-import tailwindLineClamp from '@tailwindcss/line-clamp'
 import redirect from './data/redirect'
 
 export default defineNuxtConfig({
-  modules: ['@nuxt/content', '@nuxtjs/tailwindcss'],
+  modules: ['@nuxt/content', '@nuxt/ui'],
 
   css: [
     '~/assets/fonts/cyly/cyly.css', // font
@@ -18,43 +16,9 @@ export default defineNuxtConfig({
 
   routeRules: redirect,
 
-  tailwindcss: {
-    config: {
-      plugins: [tailwindTypography, tailwindLineClamp],
-      theme: {
-        extend: {
-          typography: ({ theme }) => ({
-            DEFAULT: {
-              css: {
-                // remove underline
-                a: {
-                  color: '#364f87',
-                  'text-decoration': 'none',
-                  '&:hover': {
-                    color: '#10234f',
-                    'text-decoration': 'underline',
-                  },
-                },
-                code: {
-                  backgroundColor: theme('colors.slate.200'),
-                  borderRadius: theme('borderRadius.sm'),
-                  paddingTop: theme('padding[1]'),
-                  paddingRight: theme('padding[1.5]'),
-                  paddingBottom: theme('padding[1]'),
-                  paddingLeft: theme('padding[1.5]'),
-                },
-                'code::before': {
-                  content: 'normal',
-                },
-                'code::after': {
-                  content: 'normal',
-                },
-              },
-            },
-          }),
-        },
-      },
-    },
+  colorMode: {
+    preference: 'system',
+    fallback: 'light',
   },
 
   compatibilityDate: '2024-10-15',
