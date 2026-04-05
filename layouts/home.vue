@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const { data: featuredPost } = await useAsyncData('featured', () =>
   queryCollection('content')
-    .path('/blog/')
+    .where('path', 'LIKE', '/blog/%')
     .where('featured', '=', true)
     .where('layout', '=', 'post')
     .first()
@@ -9,8 +9,8 @@ const { data: featuredPost } = await useAsyncData('featured', () =>
 
 const { data: latestPosts } = await useAsyncData('latest', () =>
   queryCollection('content')
-    .path('/blog/')
-    .where('layout', '<>', 'series')
+    .where('path', 'LIKE', '/blog/%')
+    .where('layout', '=', 'post')
     .where('featured', '<>', true)
     .limit(4)
     .all()

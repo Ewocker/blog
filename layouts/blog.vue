@@ -8,15 +8,15 @@ const activeView = ref<'series' | 'latest'>('series')
 
 const { data: seriesData } = await useAsyncData('series', () =>
   queryCollection('content')
-    .path(route.path)
+    .where('path', 'LIKE', `${route.path}/%`)
     .where('layout', '=', 'series')
     .all()
 )
 
 const { data: allPosts } = await useAsyncData('allPosts', () =>
   queryCollection('content')
-    .path('/blog/')
-    .where('layout', '<>', 'series')
+    .where('path', 'LIKE', '/blog/%')
+    .where('layout', '=', 'post')
     .limit(20)
     .all()
 )
@@ -34,8 +34,8 @@ onMounted(async () => {
   if (!seriesData.value) return
   for (const series of seriesData.value) {
     const episodes = await queryCollection('content')
-      .path(series.path)
-      .where('layout', '<>', 'series')
+      .where('path', 'LIKE', `${series.path}/%`)
+      .where('layout', '=', 'post')
       .all()
     episodeCounts.value[series.path] = episodes.length
   }

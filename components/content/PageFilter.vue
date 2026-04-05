@@ -2,7 +2,7 @@
 import { getPageKeywords } from '~/utils/nuxt-content'
 
 const { data } = await useAsyncData(() => {
-  return queryCollection('content').path('/blog/').all()
+  return queryCollection('content').where('path', 'LIKE', '/blog/%').all()
 })
 
 const series = ref(new Map<string, Array<any>>())

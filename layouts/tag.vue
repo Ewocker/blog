@@ -11,8 +11,8 @@ const activeTag = computed(() => route.query.tag?.toString() || '')
 // v3 queryCollection doesn't support $contains on JSON arrays directly
 const { data: allBlogPosts } = await useAsyncData('allBlogPosts', () =>
   queryCollection('content')
-    .path('/blog/')
-    .where('layout', '<>', 'series')
+    .where('path', 'LIKE', '/blog/%')
+    .where('layout', '=', 'post')
     .all()
 )
 
@@ -25,7 +25,7 @@ const posts = computed(() => {
 
 const { data: allSeries } = await useAsyncData('allTags', () =>
   queryCollection('content')
-    .path('/blog/')
+    .where('path', 'LIKE', '/blog/%')
     .where('layout', '=', 'series')
     .all()
 )

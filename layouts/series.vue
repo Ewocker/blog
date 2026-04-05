@@ -8,8 +8,8 @@ const page = inject<Ref<any>>('content-page')!
 
 const { data: episodes } = await useAsyncData(() =>
   queryCollection('content')
-    .path(route.path)
-    .where('layout', '<>', 'series')
+    .where('path', 'LIKE', `${route.path}/%`)
+    .where('layout', '=', 'post')
     .all()
 )
 
