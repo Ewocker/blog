@@ -1,48 +1,74 @@
-<script setup lang="ts" >
+<script setup lang="ts">
 const { navigation } = useContent()
-const showMenu = ref(false)
+const colorMode = useColorMode()
+
+const navItems = computed(() =>
+  (navigation.value || []).map((nav: any) => ({
+    label: nav.title,
+    to: nav._path,
+  }))
+)
+
+function toggleColorMode() {
+  colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
+}
+
+const isDark = computed(() => colorMode.value === 'dark')
 </script>
 
 <template>
-  <header class="shadow-sm bg-white">
-    <nav class="flex items-center justify-between flex-wrap bg-sky-900 p-4 w-full z-10 top-0">
-      <div class="flex items-center justify-center flex-shrink-0 text-white">
-        <NuxtLink to="/"
-                  class="flex font-bold text-gray-200">
-          <img src="/common/logo.png"
-               alt="Logo"
-               class="h-14 w-14 mr-3">
-          <div class="hidden lg:flex items-center justify-center text-4xl font-family-cyly">
-            矽谷路上遇見你
-          </div>
-        </NuxtLink>
+  <UHeader
+    to="/"
+    :ui="{
+      root: 'bg-[#0c2d48] sticky top-0 z-50',
+      container: 'max-w-7xl',
+      title: 'text-gray-200 text-4xl font-family-cyly',
+      left: 'text-gray-200',
+      right: 'text-gray-200',
+    }"
+  >
+    <template #title>
+      <div class="flex items-center">
+        <img
+          src="/common/logo.png"
+          alt="Logo"
+          class="h-14 w-14 mr-3"
+        >
+        <span class="hidden lg:inline text-4xl font-family-cyly text-gray-200">
+          矽谷路上遇見你
+        </span>
       </div>
+    </template>
 
-      <div class="block lg:hidden">
-        <button @click="showMenu = !showMenu"
-                class="flex items-center px-3 py-2 border rounded text-gray-200 border-gray-400 hover:text-white hover:border-white">
-          <svg class="fill-current h-3 w-3"
-               viewBox="0 0 20 20"
-               xmlns="http://www.w3.org/2000/svg">
-            <title>Menu</title>
-            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
-          </svg>
-        </button>
-      </div>
+    <template #default>
+      <UNavigationMenu
+        :items="navItems"
+        variant="link"
+        :ui="{
+          link: 'text-gray-200 hover:text-white data-[state=active]:text-white',
+        }"
+        class="hidden lg:flex"
+      />
+    </template>
 
-      <div
-           :class="`w-full flex-grow lg:flex lg:items-center lg:w-auto lg:block pt-3 lg:pt-0 ${showMenu ? '' : 'hidden'}`">
-        <ul class="list-reset lg:flex justify-end flex-1 items-center">
-          <li v-for="nav in navigation"
-              :key="nav._path"
-              class="mr-3">
-            <NuxtLink class="inline-block py-2 px-4 text-gray-200 no-underline"
-                      :to="nav._path">
-              {{ nav.title }}
-            </NuxtLink>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  </header>
+    <template #right>
+      <UButton
+        :icon="isDark ? 'i-lucide-sun' : 'i-lucide-moon'"
+        color="neutral"
+        variant="ghost"
+        size="lg"
+        :ui="{ base: 'text-gray-200 hover:text-white' }"
+        @click="toggleColorMode"
+        :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
+      />
+    </template>
+
+    <template #content>
+      <UNavigationMenu
+        :items="navItems"
+        orientation="vertical"
+        class="w-full"
+      />
+    </template>
+  </UHeader>
 </template>
