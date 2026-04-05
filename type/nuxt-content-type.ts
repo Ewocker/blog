@@ -31,6 +31,7 @@ export interface Page {
   description: string
   keywords: Array<string>
   layout: string
+  featured: boolean
   image: {
     src: string
     alt: string
