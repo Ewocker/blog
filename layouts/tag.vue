@@ -1,35 +1,88 @@
 <script setup lang="ts">
 import type { Page } from 'type/nuxt-content-type'
-const route = useRoute()
-const tag = route.query.tag?.toString()
+import { getPageDate } from '~/utils/nuxt-content'
+import { getHumanDate } from '~/utils/date'
+import { computeImageSrc } from '~/utils/image'
 
-const { data } = await useAsyncData(() => {
-  // use custom type as nuxt-content does not implement type well
-  return queryContent('/blog/')
+const route = useRoute()
+const router = useRouter()
+const activeTag = computed(() => route.query.tag?.toString() || '')
+
+const { data: posts } = await useAsyncData(
+  `tag-${activeTag.value}`,
+  () => queryContent('/blog/')
     .where({
-      keywords: { $contains: tag || 'nothingIsProvided' },
+      keywords: { $contains: activeTag.value || 'nothingIsProvided' },
       layout: { $ne: 'series' }
     })
-    .find() as unknown as Promise<Array<Page>>
+    .find() as unknown as Promise<Array<Page>>,
+  { watch: [activeTag] }
+)
+
+const { data: allSeries } = await useAsyncData('allTags', () =>
+  queryContent('/blog/').where({ layout: 'series' }).find() as unknown as Promise<Array<Page>>
+)
+const allTags = computed(() => {
+  const tagSet = new Set<string>()
+  allSeries.value?.forEach(page => page.keywords?.forEach(tag => tagSet.add(tag)))
+  return Array.from(tagSet).sort()
 })
+
+function switchTag(tag: string) {
+  router.push({ path: '/tag', query: { tag } })
+}
 </script>
 
 <template>
-  <div class="m-4 md:m-10">
-    <div class="font-family-edu text-5xl mb-16 font-semibold text-orange-900 text-center">
-      <span>
-        All
+  <div class="min-h-screen bg-gray-50 dark:bg-gray-950">
+    <!-- Header -->
+    <div class="bg-gradient-to-br from-purple-50 to-gray-50 dark:from-gray-900 dark:to-gray-950 border-b border-gray-200 dark:border-gray-800 px-6 py-8 text-center">
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">Posts tagged</h1>
+      <span class="inline-block text-sm px-4 py-1 rounded-full bg-purple-600 text-white font-semibold">
+        {{ activeTag }}
       </span>
-      <span class="underline"> {{ tag }} </span>
-      <span>
-        posts
-      </span>
+      <p class="text-sm text-gray-500 dark:text-gray-400 mt-3">{{ posts?.length ?? 0 }} posts found</p>
     </div>
-    <div class="flex flex-wrap justify-evenly items-start md:mx-15">
-      <PostCard v-for="post in data"
-                :key="post._id"
-                :page="post"
-                class="w-full mb-6" />
+
+    <!-- Filter bar -->
+    <div class="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 px-6 py-3">
+      <div class="max-w-4xl mx-auto flex flex-wrap gap-2">
+        <button
+          v-for="tag in allTags"
+          :key="tag"
+          @click="switchTag(tag)"
+          :class="[
+            'text-xs px-3 py-1 rounded-full border transition-all',
+            tag === activeTag
+              ? 'bg-purple-600 text-white border-purple-600'
+              : 'bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-transparent hover:bg-gray-100 dark:hover:bg-gray-700'
+          ]"
+        >{{ tag }}</button>
+      </div>
+    </div>
+
+    <!-- Results grid -->
+    <div class="max-w-4xl mx-auto px-4 py-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <a
+          v-for="post in posts"
+          :key="post._id"
+          :href="post._path"
+          class="bg-white dark:bg-gray-900 rounded-xl overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-1 transition-all"
+        >
+          <img
+            v-if="post.image"
+            :src="computeImageSrc(post.image.src, post._path!!)()"
+            :alt="post.image?.alt"
+            class="w-full h-32 object-cover"
+          >
+          <div class="p-4">
+            <div class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-1">{{ post.title }}</div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 line-clamp-2">{{ post.description }}</div>
+            <div class="text-xs text-gray-400 mt-2">{{ getHumanDate(getPageDate(post)) }}</div>
+          </div>
+        </a>
+      </div>
     </div>
   </div>
 </template>
