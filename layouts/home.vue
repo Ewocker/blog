@@ -1,110 +1,74 @@
 <script setup lang="ts">
 import type { Page } from 'type/nuxt-content-type'
 
-const { data: allPosts } = await useAsyncData(() => {
-  return queryContent('/blog/').where({ layout: { $ne: 'series' } }).limit(10).find() as unknown as Promise<Array<Page>>
-})
+const { data: featuredPost } = await useAsyncData('featured', () =>
+  queryContent('/blog/')
+    .where({ featured: true, layout: 'post' })
+    .findOne() as unknown as Promise<Page>
+)
 
-const featuredPostIndex = 0
-const featuredPost = computed(() => allPosts.value?.[featuredPostIndex])
-const posts = computed(() => allPosts.value?.filter((_, i) => i !== featuredPostIndex))
+const { data: latestPosts } = await useAsyncData('latest', () =>
+  queryContent('/blog/')
+    .where({ layout: { $ne: 'series' }, featured: { $ne: true } })
+    .limit(4)
+    .find() as unknown as Promise<Array<Page>>
+)
+
+const firstPost = computed(() => latestPosts.value?.[0])
+const stackedPosts = computed(() => latestPosts.value?.slice(1, 4))
 </script>
 
 <template>
-  <div class="grid-container">
-    <!-- Banner -->
-    <div class="grid-banner">
-      <div class="w-full flex justify-center items-end">
-        <img src="/common/logo-inverted.png"
-             class="w-40 mt-20"
-             alt="logo">
+  <div class="min-h-screen bg-gray-50 dark:bg-gray-950">
+    <!-- Hero Banner -->
+    <div class="relative overflow-hidden bg-gradient-to-br from-[#0c2d48] via-[#1a1a2e] to-[#2d1b69] py-16 text-center">
+      <div class="relative z-10">
+        <img src="/common/logo-inverted.png" class="w-16 mx-auto mb-4" alt="logo">
+        <h1 class="text-4xl lg:text-5xl font-semibold text-white font-family-cyly px-6">
+          分享小貓貓工程師走在矽谷路上遇見的大小事～
+        </h1>
+        <p class="text-gray-400 mt-3 text-sm">Engineering · AI · OMSCS · Life in Silicon Valley</p>
       </div>
-      <p
-         class="w-full text-center lg:text-5xl text-4xl font-semibold text-white lg:pt-36 md:p-28 pt-28 px-6 font-family-cyly">
-        分享小貓貓工程師走在矽谷路上遇見的大小事～
-      </p>
     </div>
-    <div class="grid-feature">
-      <!-- show feature post style only on md above -->
-      <FeatureCard :page="featuredPost"
-                   class="hidden lg:flex mb-2" />
-      <PostCard :page="featuredPost"
-                class="lg:hidden" />
-    </div>
-    <div class="grid-post">
-      <PostCard v-for="post in posts"
-                :key="post._id"
-                :page="post" />
-    </div>
-    <div class="grid-more font-family-edu text-center mb-10 text-4xl text-blue-700 hover:text-blue-500">
-      <a href="/blog">
-        Read more...
-      </a>
+
+    <div class="max-w-5xl mx-auto px-4 py-6">
+      <!-- Featured Post -->
+      <FeatureCard v-if="featuredPost" :page="featuredPost" class="mb-6" />
+
+      <!-- Magazine Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-8">
+        <!-- Large card -->
+        <div v-if="firstPost" class="lg:col-span-3">
+          <PostCard :page="firstPost" class="!max-w-none" />
+        </div>
+        <!-- Stacked small cards -->
+        <div v-if="stackedPosts?.length" class="lg:col-span-2 flex flex-col gap-4">
+          <a
+            v-for="post in stackedPosts"
+            :key="post._id"
+            :href="post._path"
+            class="flex gap-3 p-3 bg-white dark:bg-gray-900 rounded-xl shadow-sm hover:shadow-md hover:translate-x-1 transition-all"
+          >
+            <img
+              v-if="post.image"
+              :src="post.image.src.startsWith('/') ? post.image.src : `${post._path}/${post.image.src}`"
+              :alt="post.image?.alt"
+              class="w-14 h-14 rounded-lg object-cover flex-shrink-0"
+            >
+            <div class="min-w-0">
+              <div class="text-sm font-semibold text-gray-900 dark:text-gray-100 line-clamp-2">{{ post.title }}</div>
+              <div class="text-xs text-gray-400 mt-1 line-clamp-1">{{ post.description }}</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- View all -->
+      <div class="text-center pb-8">
+        <a href="/blog" class="text-purple-600 dark:text-purple-400 hover:underline font-medium">
+          View all posts →
+        </a>
+      </div>
     </div>
   </div>
 </template>
-
-<!-- /bg-center flex justify-center items-center -->
-<style scoped>
-.grid-container {
-  display: grid;
-  width: 100vw;
-  grid-template:
-    "banner" auto
-    "feature" auto
-    "post" auto
-    "more" 1fr
-}
-
-.grid-banner {
-  grid-area: banner;
-  height: 30rem;
-  background-image: url('/common/hero.jpeg');
-  background-position: center;
-}
-
-.grid-feature {
-  grid-area: feature;
-  display: grid;
-  justify-items: center;
-  align-items: center;
-  margin-top: 2rem;
-  padding: 0rem 2rem;
-}
-
-.grid-post {
-  padding: 2rem 2rem;
-  grid-area: post;
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  justify-items: center;
-  align-items: center;
-  row-gap: 2rem;
-}
-
-@media (min-width: 900px) {
-  .grid-post {
-    padding: 1rem;
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .grid-feature {
-    padding: 1rem;
-  }
-}
-
-@media (min-width: 1280px) {
-  .grid-post {
-    padding: 1rem;
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .grid-feature {
-    padding: 1rem;
-  }
-}
-
-.grid-more {
-  grid-area: more;
-}
-</style>
