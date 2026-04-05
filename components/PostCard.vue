@@ -22,7 +22,7 @@ const read = getMeta('read')?.content
 // a workaround for index page not having index in path
 let path = props.page._path
 if (props.page.layout === 'series') path += '/index'
-const computedImageSrc = computed(computeImageSrc(props.page.image.src, path))
+const computedImageSrc = computed(computeImageSrc(props.page.image?.src, path))
 </script>
 
 <template>
