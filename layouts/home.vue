@@ -1,18 +1,13 @@
 <script setup lang="ts">
 import type { Page } from 'type/nuxt-content-type'
 
-const { data: posts } = await useAsyncData(() => {
-  // use custom type as nuxt-content does not implement type well
+const { data: allPosts } = await useAsyncData(() => {
   return queryContent('/blog/').where({ layout: { $ne: 'series' } }).limit(10).find() as unknown as Promise<Array<Page>>
 })
 
-// Manually decide the featured post
-console.log(posts.value)
-const featuredPostNumber = 0
-const featuredPost = posts.value![featuredPostNumber]!
-
-// remove featured post from posts
-posts.value?.splice(featuredPostNumber, 1)
+const featuredPostIndex = 0
+const featuredPost = computed(() => allPosts.value?.[featuredPostIndex])
+const posts = computed(() => allPosts.value?.filter((_, i) => i !== featuredPostIndex))
 </script>
 
 <template>

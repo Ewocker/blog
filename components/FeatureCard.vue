@@ -11,6 +11,8 @@ const props = defineProps({
   },
 })
 
+console.log('FeatureCard', props.page)
+
 const getMeta = (name: string): Meta | undefined =>
   props.page.head?.meta?.find((o: any) => o.name === name)
 const date = getHumanDate(getPageDate(props.page))
