@@ -21,6 +21,8 @@ const isDark = computed(() => colorMode.value === 'dark')
 
 <template>
   <UHeader
+    title="矽谷路上遇見你"
+    description="小貓貓工程師的部落格"
     to="/"
     :ui="{
       root: 'bg-[#0c2d48] sticky top-0 z-50',
@@ -49,6 +51,7 @@ const isDark = computed(() => colorMode.value === 'dark')
         variant="link"
         :ui="{
           link: 'text-gray-200 hover:text-white data-[state=active]:text-white',
+          list: 'gap-2',
         }"
         class="hidden lg:flex"
       />

@@ -12,10 +12,5 @@ export default defineNuxtConfig({
 
   routeRules: redirect,
 
-  colorMode: {
-    preference: 'system',
-    fallback: 'light',
-  },
-
   compatibilityDate: '2024-10-15',
 })
