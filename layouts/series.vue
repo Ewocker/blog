@@ -5,10 +5,11 @@ import { getHumanDate } from '~/utils/date'
 
 const route = useRoute()
 const page = inject<Ref<any>>('content-page')!
+const basePath = route.path.replace(/\/$/, '')
 
 const { data: episodes } = await useAsyncData(() =>
   queryCollection('content')
-    .where('path', 'LIKE', `${route.path}/%`)
+    .where('path', 'LIKE', `${basePath}/%`)
     .where('layout', '=', 'post')
     .all()
 )

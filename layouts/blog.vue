@@ -5,10 +5,11 @@ import { computeImageSrc } from '~/utils/image'
 
 const route = useRoute()
 const activeView = ref<'series' | 'latest'>('series')
+const basePath = route.path.replace(/\/$/, '')
 
 const { data: seriesData } = await useAsyncData('series', () =>
   queryCollection('content')
-    .where('path', 'LIKE', `${route.path}/%`)
+    .where('path', 'LIKE', `${basePath}/%`)
     .where('layout', '=', 'series')
     .all()
 )

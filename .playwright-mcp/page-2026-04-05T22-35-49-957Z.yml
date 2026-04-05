@@ -1,0 +1,56 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - link "矽谷路上遇見你" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e7]:
+            - img "Logo" [ref=e8]
+            - generic [ref=e9]: 矽谷路上遇見你
+        - navigation [ref=e11]:
+          - list [ref=e13]:
+            - listitem [ref=e14]:
+              - link "主頁" [ref=e15] [cursor=pointer]:
+                - /url: /
+                - generic [ref=e16]: 主頁
+            - listitem [ref=e17]:
+              - link "文章目錄" [ref=e18] [cursor=pointer]:
+                - /url: /blog
+                - generic [ref=e19]: 文章目錄
+            - listitem [ref=e20]:
+              - link "Career Copilot" [ref=e21] [cursor=pointer]:
+                - /url: /career-copilot
+                - generic [ref=e22]: Career Copilot
+            - listitem [ref=e23]:
+              - link "作者" [ref=e24] [cursor=pointer]:
+                - /url: /author
+                - generic [ref=e25]: 作者
+            - listitem [ref=e26]:
+              - link "Tag" [ref=e27] [cursor=pointer]:
+                - /url: /tag
+                - generic [ref=e28]: Tag
+        - generic [ref=e29]:
+          - button "Switch to dark mode" [ref=e30]
+          - button "Open menu" [ref=e32]
+    - generic [ref=e34]:
+      - generic [ref=e36]:
+        - heading "Georgia Tech OMSCS 線上碩士" [level=1] [ref=e37]
+        - generic [ref=e38]: 0 episodes · by 小貓貓工程師
+        - paragraph [ref=e39]: 繼續深造！全職軟體工程師線上碩士心得以及經驗分享
+      - generic [ref=e40]:
+        - link "Blog" [ref=e41] [cursor=pointer]:
+          - /url: /blog
+        - text: /Georgia Tech OMSCS 線上碩士
+    - generic [ref=e44]: Copyright © 2026 小貓貓工程師
+  - generic:
+    - img
+  - generic [ref=e45]:
+    - button "Toggle Nuxt DevTools" [ref=e46] [cursor=pointer]:
+      - img [ref=e47]
+    - generic "Page load time" [ref=e50]:
+      - generic [ref=e51]: "40"
+      - generic [ref=e52]: ms
+    - button "Toggle Component Inspector" [ref=e54] [cursor=pointer]:
+      - img [ref=e55]
+  - region "Notifications (F8)":
+    - list

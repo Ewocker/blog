@@ -1,0 +1,78 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - link "矽谷路上遇見你" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e7]:
+            - img "Logo" [ref=e8]
+            - generic [ref=e9]: 矽谷路上遇見你
+        - navigation [ref=e11]:
+          - list [ref=e13]:
+            - listitem [ref=e14]:
+              - link "主頁" [ref=e15] [cursor=pointer]:
+                - /url: /
+                - generic [ref=e16]: 主頁
+            - listitem [ref=e17]:
+              - link "文章目錄" [ref=e18] [cursor=pointer]:
+                - /url: /blog
+                - generic [ref=e19]: 文章目錄
+            - listitem [ref=e20]:
+              - link "Career Copilot" [ref=e21] [cursor=pointer]:
+                - /url: /career-copilot
+                - generic [ref=e22]: Career Copilot
+            - listitem [ref=e23]:
+              - link "作者" [ref=e24] [cursor=pointer]:
+                - /url: /author
+                - generic [ref=e25]: 作者
+            - listitem [ref=e26]:
+              - link "Tag" [ref=e27] [cursor=pointer]:
+                - /url: /tag
+                - generic [ref=e28]: Tag
+        - generic [ref=e29]:
+          - button "Switch to dark mode" [ref=e30]
+          - button "Open menu" [ref=e32]
+    - generic [ref=e34]:
+      - generic [ref=e36]:
+        - heading "All Series" [level=1] [ref=e37]
+        - generic [ref=e38]:
+          - button "Series" [ref=e39]
+          - button "Latest" [ref=e40]
+      - generic [ref=e43]:
+        - generic [ref=e44]:
+          - heading "Recent Posts" [level=3] [ref=e45]
+          - generic [ref=e46]:
+            - link "工程師的 AI 日常 00 - 用 AI 打造部落格自動化 Apr 2, 2026" [ref=e47] [cursor=pointer]:
+              - /url: /blog/ai-daily/00
+              - generic [ref=e48]: 工程師的 AI 日常 00 - 用 AI 打造部落格自動化
+              - generic [ref=e49]: Apr 2, 2026
+            - link "Georgia Tech OMSCS 繼續深造的開始 Oct 15, 2024" [ref=e50] [cursor=pointer]:
+              - /url: /blog/omscs/00
+              - generic [ref=e51]: Georgia Tech OMSCS 繼續深造的開始
+              - generic [ref=e52]: Oct 15, 2024
+            - link "CS6400 - 資料庫系統概念與設計 Dec 20, 2024" [ref=e53] [cursor=pointer]:
+              - /url: /blog/omscs/01
+              - generic [ref=e54]: CS6400 - 資料庫系統概念與設計
+              - generic [ref=e55]: Dec 20, 2024
+            - link "CS7646 - 機器學習與交易 Apr 3, 2026" [ref=e56] [cursor=pointer]:
+              - /url: /blog/omscs/02
+              - generic [ref=e57]: CS7646 - 機器學習與交易
+              - generic [ref=e58]: Apr 3, 2026
+            - link "CS7641 - 機器學習 Apr 3, 2026" [ref=e59] [cursor=pointer]:
+              - /url: /blog/omscs/03
+              - generic [ref=e60]: CS7641 - 機器學習
+              - generic [ref=e61]: Apr 3, 2026
+        - heading "Tags" [level=3] [ref=e63]
+    - generic [ref=e64]: Copyright © 2026 小貓貓工程師
+  - region "Notifications (F8)":
+    - list
+  - generic:
+    - img
+  - generic [ref=e65]:
+    - button "Toggle Nuxt DevTools" [ref=e66] [cursor=pointer]:
+      - img [ref=e67]
+    - generic "Page load time" [ref=e70]:
+      - generic [ref=e71]: "47"
+      - generic [ref=e72]: ms
+    - button "Toggle Component Inspector" [ref=e74] [cursor=pointer]:
+      - img [ref=e75]

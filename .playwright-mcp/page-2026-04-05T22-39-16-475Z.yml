@@ -1,0 +1,236 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - link "矽谷路上遇見你" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e7]:
+            - img "Logo" [ref=e8]
+            - generic [ref=e9]: 矽谷路上遇見你
+        - navigation [ref=e11]:
+          - list [ref=e13]:
+            - listitem [ref=e14]:
+              - link "主頁" [ref=e15] [cursor=pointer]:
+                - /url: /
+                - generic [ref=e16]: 主頁
+            - listitem [ref=e17]:
+              - link "文章目錄" [ref=e18] [cursor=pointer]:
+                - /url: /blog
+                - generic [ref=e19]: 文章目錄
+            - listitem [ref=e20]:
+              - link "Career Copilot" [ref=e21] [cursor=pointer]:
+                - /url: /career-copilot
+                - generic [ref=e22]: Career Copilot
+            - listitem [ref=e23]:
+              - link "作者" [ref=e24] [cursor=pointer]:
+                - /url: /author
+                - generic [ref=e25]: 作者
+            - listitem [ref=e26]:
+              - link "Tag" [ref=e27] [cursor=pointer]:
+                - /url: /tag
+                - generic [ref=e28]: Tag
+        - generic [ref=e29]:
+          - button "Switch to dark mode" [ref=e30]
+          - button "Open menu" [ref=e32]
+    - generic [ref=e34]:
+      - generic [ref=e36]:
+        - heading "All Series" [level=1] [ref=e37]
+        - generic [ref=e38]:
+          - button "Series" [ref=e39]
+          - button "Latest" [ref=e40]
+      - generic [ref=e41]:
+        - generic [ref=e42]:
+          - link "hero 工程師的 AI 日常 1 episodes 在 AI 工具日新月異的時代，身為工程師的我開始嘗試將各種 AI 融入日常的工作流程中。從自動化部落格寫作到各種開發輔助，這個系列將分享我在矽谷一路上與 AI 共事的各種體驗和心得。 →" [ref=e43] [cursor=pointer]:
+            - /url: /blog/ai-daily
+            - img "hero" [ref=e44]
+            - generic [ref=e45]:
+              - generic [ref=e46]: 工程師的 AI 日常
+              - generic [ref=e47]: 1 episodes
+              - generic [ref=e48]: 在 AI 工具日新月異的時代，身為工程師的我開始嘗試將各種 AI 融入日常的工作流程中。從自動化部落格寫作到各種開發輔助，這個系列將分享我在矽谷一路上與 AI 共事的各種體驗和心得。
+            - generic [ref=e49]: →
+          - link "hero Georgia Tech OMSCS 線上碩士 4 episodes 繼續深造！全職軟體工程師線上碩士心得以及經驗分享 →" [ref=e50] [cursor=pointer]:
+            - /url: /blog/omscs
+            - img "hero" [ref=e51]
+            - generic [ref=e52]:
+              - generic [ref=e53]: Georgia Tech OMSCS 線上碩士
+              - generic [ref=e54]: 4 episodes
+              - generic [ref=e55]: 繼續深造！全職軟體工程師線上碩士心得以及經驗分享
+            - generic [ref=e56]: →
+          - link "hero 我的第一個創業現在進行式 8 episodes 人人都有創業的憧憬，而我也不例外。常聽網上說創業不難，但身處其中的我卻不這麼覺得。 在矽谷高科技產業的競爭下，與夥伴們共同奮鬥的我，體驗了許多不一樣的東西。 從項目開始到現在經歷的各種酸甜苦辣、屎不拉拉不屎的綽號由來、夥伴們的分分合合，一切的一切，且聽小貓貓工程師和你分享，我的第一個創業現在進行式。 →" [ref=e57] [cursor=pointer]:
+            - /url: /blog/sproutlabs
+            - img "hero" [ref=e58]
+            - generic [ref=e59]:
+              - generic [ref=e60]: 我的第一個創業現在進行式
+              - generic [ref=e61]: 8 episodes
+              - generic [ref=e62]: 人人都有創業的憧憬，而我也不例外。常聽網上說創業不難，但身處其中的我卻不這麼覺得。 在矽谷高科技產業的競爭下，與夥伴們共同奮鬥的我，體驗了許多不一樣的東西。 從項目開始到現在經歷的各種酸甜苦辣、屎不拉拉不屎的綽號由來、夥伴們的分分合合，一切的一切，且聽小貓貓工程師和你分享，我的第一個創業現在進行式。
+            - generic [ref=e63]: →
+          - link "hero 我的第一份實習過去式 3 episodes 一切的都是從「我究竟要怎麼做才能留下來」這句話開始的，自從來到美國大學的第一天後我腦中就時常浮現出這樣的念頭。曾聽過很多留美成功的例子的我，親身來到這裡後才發現那只不過是被大眾媒體美化過的少數幾個而已。雖然也想過自己成為功成名就的那其中一個，但其實內心只是期望能夠在畢業後能有一個好的開始，得到一個留下來工作的機會。沒想到不久之前還是個小屁孩高中生的我不知不覺的也迎來了要面對社會的這一天。 →" [ref=e64] [cursor=pointer]:
+            - /url: /blog/proofpoint-internship
+            - img "hero" [ref=e65]
+            - generic [ref=e66]:
+              - generic [ref=e67]: 我的第一份實習過去式
+              - generic [ref=e68]: 3 episodes
+              - generic [ref=e69]: 一切的都是從「我究竟要怎麼做才能留下來」這句話開始的，自從來到美國大學的第一天後我腦中就時常浮現出這樣的念頭。曾聽過很多留美成功的例子的我，親身來到這裡後才發現那只不過是被大眾媒體美化過的少數幾個而已。雖然也想過自己成為功成名就的那其中一個，但其實內心只是期望能夠在畢業後能有一個好的開始，得到一個留下來工作的機會。沒想到不久之前還是個小屁孩高中生的我不知不覺的也迎來了要面對社會的這一天。
+            - generic [ref=e70]: →
+          - link "hero Container Technology 3 episodes 近幾年，矽谷的各個科技大廠都快速的融入 Cloud Native 原生雲 的概念。就連新興 Startups 創業 公司的軟體開發也都是直接基於 Cloud Native 概念開始的。這代表著現代的工程師想要具有競爭力，無論工作是 Frontend、Backend、又或是 Operations，對 Cloud 雲端 相關內容有著基本的了解都會是大大的加分。而在 Cloud Native 的世界中，Container 容器 則扮演著至關重要的基本角色。 →" [ref=e71] [cursor=pointer]:
+            - /url: /blog/container-docker
+            - img "hero" [ref=e72]
+            - generic [ref=e73]:
+              - generic [ref=e74]: Container Technology
+              - generic [ref=e75]: 3 episodes
+              - generic [ref=e76]: 近幾年，矽谷的各個科技大廠都快速的融入 Cloud Native 原生雲 的概念。就連新興 Startups 創業 公司的軟體開發也都是直接基於 Cloud Native 概念開始的。這代表著現代的工程師想要具有競爭力，無論工作是 Frontend、Backend、又或是 Operations，對 Cloud 雲端 相關內容有著基本的了解都會是大大的加分。而在 Cloud Native 的世界中，Container 容器 則扮演著至關重要的基本角色。
+            - generic [ref=e77]: →
+          - link "hero Kubernetes 4 episodes Kubernetes (k8s) 是一個用於管理容器 Container 的開源軟體，一般被稱為 Container Orchestration Platform。K8s 的前身是由 Google 內部開發的 Borg 項目，並於2014年公開發布。在那之後由 CNCF 接手到 2018 年畢業，並且擁有一個龐大且快速增長的完整生態系統。 →" [ref=e78] [cursor=pointer]:
+            - /url: /blog/k8s-intro
+            - img "hero" [ref=e79]
+            - generic [ref=e80]:
+              - generic [ref=e81]: Kubernetes
+              - generic [ref=e82]: 4 episodes
+              - generic [ref=e83]: Kubernetes (k8s) 是一個用於管理容器 Container 的開源軟體，一般被稱為 Container Orchestration Platform。K8s 的前身是由 Google 內部開發的 Borg 項目，並於2014年公開發布。在那之後由 CNCF 接手到 2018 年畢業，並且擁有一個龐大且快速增長的完整生態系統。
+            - generic [ref=e84]: →
+          - link "hero 邁向自我成長的下一步 5 episodes 經歷過挫折與失敗才知道別人說的未雨綢繆 並不只是聽上去的那樣簡單。成長是一個漫長的道路，而自發的成長更是難能可貴。當學會了自發後，為了達到更好的成果，規劃與自律將會是下一個挑戰。 →" [ref=e85] [cursor=pointer]:
+            - /url: /blog/next-step-to-personal-growth
+            - img "hero" [ref=e86]
+            - generic [ref=e87]:
+              - generic [ref=e88]: 邁向自我成長的下一步
+              - generic [ref=e89]: 5 episodes
+              - generic [ref=e90]: 經歷過挫折與失敗才知道別人說的未雨綢繆 並不只是聽上去的那樣簡單。成長是一個漫長的道路，而自發的成長更是難能可貴。當學會了自發後，為了達到更好的成果，規劃與自律將會是下一個挑戰。
+            - generic [ref=e91]: →
+          - link "hero 美國那些事 2 episodes 在四年制的美國大學資工系 Computer Science Major 到底都教了些什麼，而又能學到什麼呢？四年的時間不長也不短，但剛好適合讓人入門一項新的技術。而美國的大學最不同的就是入學前不需要選定專業，這讓還有志向的學生能夠在第一年的大學生活中體驗不同科系的樂趣。 →" [ref=e92] [cursor=pointer]:
+            - /url: /blog/us-stuff
+            - img "hero" [ref=e93]
+            - generic [ref=e94]:
+              - generic [ref=e95]: 美國那些事
+              - generic [ref=e96]: 2 episodes
+              - generic [ref=e97]: 在四年制的美國大學資工系 Computer Science Major 到底都教了些什麼，而又能學到什麼呢？四年的時間不長也不短，但剛好適合讓人入門一項新的技術。而美國的大學最不同的就是入學前不需要選定專業，這讓還有志向的學生能夠在第一年的大學生活中體驗不同科系的樂趣。
+            - generic [ref=e98]: →
+          - link "hero Career 職涯 2 episodes 我還有很多想與你們分享，快來這裡挖挖寶吧！ →" [ref=e99] [cursor=pointer]:
+            - /url: /blog/career
+            - img "hero" [ref=e100]
+            - generic [ref=e101]:
+              - generic [ref=e102]: Career 職涯
+              - generic [ref=e103]: 2 episodes
+              - generic [ref=e104]: 我還有很多想與你們分享，快來這裡挖挖寶吧！
+            - generic [ref=e105]: →
+          - link "hero 關於 Data Science 3 episodes Data Science 是什么？工作内容大概是怎样？如何申请学校？毕业后怎么找工作？这里你将找到你的答案！ →" [ref=e106] [cursor=pointer]:
+            - /url: /blog/about-ds
+            - img "hero" [ref=e107]
+            - generic [ref=e108]:
+              - generic [ref=e109]: 關於 Data Science
+              - generic [ref=e110]: 3 episodes
+              - generic [ref=e111]: Data Science 是什么？工作内容大概是怎样？如何申请学校？毕业后怎么找工作？这里你将找到你的答案！
+            - generic [ref=e112]: →
+          - link "hero 隨筆 0 episodes 不屬於任何系列的隨想隨筆，矽谷路上的零碎記錄。 →" [ref=e113] [cursor=pointer]:
+            - /url: /blog/random-thoughts
+            - img "hero" [ref=e114]
+            - generic [ref=e115]:
+              - generic [ref=e116]: 隨筆
+              - generic [ref=e117]: 0 episodes
+              - generic [ref=e118]: 不屬於任何系列的隨想隨筆，矽谷路上的零碎記錄。
+            - generic [ref=e119]: →
+        - generic [ref=e120]:
+          - generic [ref=e121]:
+            - heading "Recent Posts" [level=3] [ref=e122]
+            - generic [ref=e123]:
+              - link "工程師的 AI 日常 00 - 用 AI 打造部落格自動化 Apr 2, 2026" [ref=e124] [cursor=pointer]:
+                - /url: /blog/ai-daily/00
+                - generic [ref=e125]: 工程師的 AI 日常 00 - 用 AI 打造部落格自動化
+                - generic [ref=e126]: Apr 2, 2026
+              - link "Georgia Tech OMSCS 繼續深造的開始 Oct 15, 2024" [ref=e127] [cursor=pointer]:
+                - /url: /blog/omscs/00
+                - generic [ref=e128]: Georgia Tech OMSCS 繼續深造的開始
+                - generic [ref=e129]: Oct 15, 2024
+              - link "CS6400 - 資料庫系統概念與設計 Dec 20, 2024" [ref=e130] [cursor=pointer]:
+                - /url: /blog/omscs/01
+                - generic [ref=e131]: CS6400 - 資料庫系統概念與設計
+                - generic [ref=e132]: Dec 20, 2024
+              - link "CS7646 - 機器學習與交易 Apr 3, 2026" [ref=e133] [cursor=pointer]:
+                - /url: /blog/omscs/02
+                - generic [ref=e134]: CS7646 - 機器學習與交易
+                - generic [ref=e135]: Apr 3, 2026
+              - link "CS7641 - 機器學習 Apr 3, 2026" [ref=e136] [cursor=pointer]:
+                - /url: /blog/omscs/03
+                - generic [ref=e137]: CS7641 - 機器學習
+                - generic [ref=e138]: Apr 3, 2026
+          - generic [ref=e139]:
+            - heading "Tags" [level=3] [ref=e140]
+            - generic [ref=e141]:
+              - link "AI" [ref=e142] [cursor=pointer]:
+                - /url: /tag?tag=AI
+              - link "adobe" [ref=e143] [cursor=pointer]:
+                - /url: /tag?tag=adobe
+              - link "automation" [ref=e144] [cursor=pointer]:
+                - /url: /tag?tag=automation
+              - link "businessanalytics" [ref=e145] [cursor=pointer]:
+                - /url: /tag?tag=businessanalytics
+              - link "career" [ref=e146] [cursor=pointer]:
+                - /url: /tag?tag=career
+              - link "cloud" [ref=e147] [cursor=pointer]:
+                - /url: /tag?tag=cloud
+              - link "container" [ref=e148] [cursor=pointer]:
+                - /url: /tag?tag=container
+              - link "cs" [ref=e149] [cursor=pointer]:
+                - /url: /tag?tag=cs
+              - link "datascience" [ref=e150] [cursor=pointer]:
+                - /url: /tag?tag=datascience
+              - link "docker" [ref=e151] [cursor=pointer]:
+                - /url: /tag?tag=docker
+              - link "engineering" [ref=e152] [cursor=pointer]:
+                - /url: /tag?tag=engineering
+              - link "internship" [ref=e153] [cursor=pointer]:
+                - /url: /tag?tag=internship
+              - link "interview" [ref=e154] [cursor=pointer]:
+                - /url: /tag?tag=interview
+              - link "k8s" [ref=e155] [cursor=pointer]:
+                - /url: /tag?tag=k8s
+              - link "offer" [ref=e156] [cursor=pointer]:
+                - /url: /tag?tag=offer
+              - link "omscs" [ref=e157] [cursor=pointer]:
+                - /url: /tag?tag=omscs
+              - link "online master" [ref=e158] [cursor=pointer]:
+                - /url: /tag?tag=online master
+              - link "other" [ref=e159] [cursor=pointer]:
+                - /url: /tag?tag=other
+              - link "personal growth" [ref=e160] [cursor=pointer]:
+                - /url: /tag?tag=personal growth
+              - link "proofpoint" [ref=e161] [cursor=pointer]:
+                - /url: /tag?tag=proofpoint
+              - link "school" [ref=e162] [cursor=pointer]:
+                - /url: /tag?tag=school
+              - link "startup" [ref=e163] [cursor=pointer]:
+                - /url: /tag?tag=startup
+              - link "story" [ref=e164] [cursor=pointer]:
+                - /url: /tag?tag=story
+              - link "tech" [ref=e165] [cursor=pointer]:
+                - /url: /tag?tag=tech
+              - link "tesla" [ref=e166] [cursor=pointer]:
+                - /url: /tag?tag=tesla
+              - link "university" [ref=e167] [cursor=pointer]:
+                - /url: /tag?tag=university
+              - link "usa" [ref=e168] [cursor=pointer]:
+                - /url: /tag?tag=usa
+              - link "工程師的 AI 日常" [ref=e169] [cursor=pointer]:
+                - /url: /tag?tag=工程師的 AI 日常
+              - link "我的第一份實習過去式" [ref=e170] [cursor=pointer]:
+                - /url: /tag?tag=我的第一份實習過去式
+              - link "我的第一個創業現在進行式" [ref=e171] [cursor=pointer]:
+                - /url: /tag?tag=我的第一個創業現在進行式
+              - link "美國那些事" [ref=e172] [cursor=pointer]:
+                - /url: /tag?tag=美國那些事
+              - link "邁向自我成長的下一步" [ref=e173] [cursor=pointer]:
+                - /url: /tag?tag=邁向自我成長的下一步
+              - link "隨筆" [ref=e174] [cursor=pointer]:
+                - /url: /tag?tag=隨筆
+    - generic [ref=e175]: Copyright © 2026 小貓貓工程師
+  - generic:
+    - img
+  - generic [ref=e176]:
+    - button "Toggle Nuxt DevTools" [ref=e177] [cursor=pointer]:
+      - img [ref=e178]
+    - generic "Page load time" [ref=e181]:
+      - generic [ref=e182]: "86"
+      - generic [ref=e183]: ms
+    - button "Toggle Component Inspector" [ref=e185] [cursor=pointer]:
+      - img [ref=e186]
+  - region "Notifications (F8)":
+    - list

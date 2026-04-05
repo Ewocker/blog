@@ -1,0 +1,82 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - link "矽谷路上遇見你" [ref=e6] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e7]:
+          - img "Logo" [ref=e8]
+          - generic [ref=e9]: 矽谷路上遇見你
+      - navigation [ref=e11]:
+        - list [ref=e13]:
+          - listitem [ref=e14]:
+            - link "主頁" [ref=e15] [cursor=pointer]:
+              - /url: /
+              - generic [ref=e16]: 主頁
+          - listitem [ref=e17]:
+            - link "文章目錄" [ref=e18] [cursor=pointer]:
+              - /url: /blog
+              - generic [ref=e19]: 文章目錄
+          - listitem [ref=e20]:
+            - link "Career Copilot" [ref=e21] [cursor=pointer]:
+              - /url: /career-copilot
+              - generic [ref=e22]: Career Copilot
+          - listitem [ref=e23]:
+            - link "作者" [ref=e24] [cursor=pointer]:
+              - /url: /author
+              - generic [ref=e25]: 作者
+          - listitem [ref=e26]:
+            - link "Tag" [ref=e27] [cursor=pointer]:
+              - /url: /tag
+              - generic [ref=e28]: Tag
+      - generic [ref=e29]:
+        - button "Switch to dark mode" [ref=e30]
+        - button "Open menu" [ref=e32]
+  - generic [ref=e34]:
+    - generic [ref=e36]:
+      - img "logo" [ref=e37]
+      - heading "分享小貓貓工程師走在矽谷路上遇見的大小事～" [level=1] [ref=e38]
+      - paragraph [ref=e39]: Engineering · AI · OMSCS · Life in Silicon Valley
+    - generic [ref=e40]:
+      - link "hero ✨ FEATURED 工程師的 AI 日常 00 - 用 AI 打造部落格自動化 身為一位在矽谷工作的軟體工程師，寫部落格這件事一直是我想持續做但常常擱置的事情。而在 AI 工具越來越成熟的現在，我花了一個下午的時間和 Claude 一起設計並搭建了一套從筆記到發布的自動化系統。其實過程中最有趣的不是自動化本身，而是 AI 竟然能夠分析出我自己都沒意識到的寫作習慣。 Apr 2, 2026 · 7 min read" [ref=e41] [cursor=pointer]:
+        - /url: /blog/ai-daily/00
+        - generic [ref=e42]:
+          - img "hero" [ref=e44]
+          - generic [ref=e45]:
+            - generic [ref=e46]: ✨ FEATURED
+            - heading "工程師的 AI 日常 00 - 用 AI 打造部落格自動化" [level=2] [ref=e47]
+            - paragraph [ref=e48]: 身為一位在矽谷工作的軟體工程師，寫部落格這件事一直是我想持續做但常常擱置的事情。而在 AI 工具越來越成熟的現在，我花了一個下午的時間和 Claude 一起設計並搭建了一套從筆記到發布的自動化系統。其實過程中最有趣的不是自動化本身，而是 AI 竟然能夠分析出我自己都沒意識到的寫作習慣。
+            - generic [ref=e49]: Apr 2, 2026 · 7 min read
+      - generic [ref=e50]:
+        - generic [ref=e52]:
+          - link "hero" [ref=e53] [cursor=pointer]:
+            - /url: /blog/omscs/00
+            - img "hero" [ref=e55]
+          - link "Georgia Tech OMSCS 繼續深造的開始" [ref=e57] [cursor=pointer]:
+            - /url: /blog/omscs/00
+            - generic [ref=e58]: Georgia Tech OMSCS 繼續深造的開始
+          - link "正在讀這篇文章的你是否正在思考，花幾年時間讀上一個線上碩士到底是不適合自己。 當時的我也曾花了很長的時間去研究，讓我來分享一下當初我是怎麼做的決定，以及我最後的選擇 \"喬治亞理工 OMSCS\"。" [ref=e59] [cursor=pointer]:
+            - /url: /blog/omscs/00
+            - generic [ref=e60]: 正在讀這篇文章的你是否正在思考，花幾年時間讀上一個線上碩士到底是不適合自己。 當時的我也曾花了很長的時間去研究，讓我來分享一下當初我是怎麼做的決定，以及我最後的選擇 "喬治亞理工 OMSCS"。
+          - generic [ref=e61]: Oct 15, 2024 · 7 min read
+        - generic [ref=e62]:
+          - link "hero CS6400 - 資料庫系統概念與設計 CS 6400 - Database Systems Concepts and Design (資料庫系統概念與設計)是一堂相較簡單的課程，也是我選擇的第一堂課。 這堂課的目標是想看看自己是否能夠在工作之餘兼顧學業，順帶複習一下大學時的資料庫課程以及工作上的應用。" [ref=e63] [cursor=pointer]:
+            - /url: /blog/omscs/01
+            - img "hero" [ref=e64]
+            - generic [ref=e65]:
+              - generic [ref=e66]: CS6400 - 資料庫系統概念與設計
+              - generic [ref=e67]: CS 6400 - Database Systems Concepts and Design (資料庫系統概念與設計)是一堂相較簡單的課程，也是我選擇的第一堂課。 這堂課的目標是想看看自己是否能夠在工作之餘兼顧學業，順帶複習一下大學時的資料庫課程以及工作上的應用。
+          - link "hero CS7646 - 機器學習與交易 CS 7646 - Machine Learning for Trading 是一堂用股票數據來入門機器學習的課程。 難度不高，但從手寫 Decision Tree 到 Q-Learning 交易策略，內容比想像中豐富。" [ref=e68] [cursor=pointer]:
+            - /url: /blog/omscs/02
+            - img "hero" [ref=e69]
+            - generic [ref=e70]:
+              - generic [ref=e71]: CS7646 - 機器學習與交易
+              - generic [ref=e72]: CS 7646 - Machine Learning for Trading 是一堂用股票數據來入門機器學習的課程。 難度不高，但從手寫 Decision Tree 到 Q-Learning 交易策略，內容比想像中豐富。
+          - link "hero CS7641 - 機器學習 CS 7641 - Machine Learning 是 OMSCS 中公認最難的課程之一。 五份實驗報告、龐大的數據集、沒有任何程式碼指引，讓我來分享這堂課的真實體驗。" [ref=e73] [cursor=pointer]:
+            - /url: /blog/omscs/03
+            - img "hero" [ref=e74]
+            - generic [ref=e75]:
+              - generic [ref=e76]: CS7641 - 機器學習
+              - generic [ref=e77]: CS 7641 - Machine Learning 是 OMSCS 中公認最難的課程之一。 五份實驗報告、龐大的數據集、沒有任何程式碼指引，讓我來分享這堂課的真實體驗。
+      - link "View all posts →" [ref=e79] [cursor=pointer]:
+        - /url: /blog
+  - generic [ref=e80]: Copyright © 2026 小貓貓工程師

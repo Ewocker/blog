@@ -7,13 +7,16 @@ const { data: featuredPost } = await useAsyncData('featured', () =>
     .first()
 )
 
-const { data: latestPosts } = await useAsyncData('latest', () =>
+const { data: allLatest } = await useAsyncData('latest', () =>
   queryCollection('content')
     .where('path', 'LIKE', '/blog/%')
     .where('layout', '=', 'post')
-    .where('featured', '<>', true)
-    .limit(4)
+    .limit(10)
     .all()
+)
+
+const latestPosts = computed(() =>
+  allLatest.value?.filter((p: any) => !p.featured)?.slice(0, 4)
 )
 
 const firstPost = computed(() => latestPosts.value?.[0])

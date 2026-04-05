@@ -1,0 +1,41 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - link "矽谷路上遇見你" [ref=e6] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e7]:
+          - img "Logo" [ref=e8]
+          - text: 矽谷路上遇見你
+      - navigation [ref=e10]:
+        - list [ref=e12]:
+          - listitem [ref=e13]:
+            - link "主頁" [ref=e14] [cursor=pointer]:
+              - /url: /
+              - generic [ref=e15]: 主頁
+          - listitem [ref=e16]:
+            - link "文章目錄" [ref=e17] [cursor=pointer]:
+              - /url: /blog
+              - generic [ref=e18]: 文章目錄
+          - listitem [ref=e19]:
+            - link "Career Copilot" [ref=e20] [cursor=pointer]:
+              - /url: /career-copilot
+              - generic [ref=e21]: Career Copilot
+          - listitem [ref=e22]:
+            - link "作者" [ref=e23] [cursor=pointer]:
+              - /url: /author
+              - generic [ref=e24]: 作者
+          - listitem [ref=e25]:
+            - link "Tag" [ref=e26] [cursor=pointer]:
+              - /url: /tag
+              - generic [ref=e27]: Tag
+      - generic [ref=e28]:
+        - button "Switch to dark mode" [ref=e29]
+        - button "Open menu" [ref=e31]
+  - generic [ref=e33]:
+    - generic [ref=e35]:
+      - img "logo" [ref=e36]
+      - heading "分享小貓貓工程師走在矽谷路上遇見的大小事～" [level=1] [ref=e37]
+      - paragraph [ref=e38]: Engineering · AI · OMSCS · Life in Silicon Valley
+    - link "View all posts →" [ref=e41] [cursor=pointer]:
+      - /url: /blog
+  - generic [ref=e42]: Copyright © 2026 小貓貓工程師

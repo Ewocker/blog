@@ -1,0 +1,91 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - link "矽谷路上遇見你" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e7]:
+            - img "Logo" [ref=e8]
+            - generic [ref=e9]: 矽谷路上遇見你
+        - navigation [ref=e11]:
+          - list [ref=e13]:
+            - listitem [ref=e14]:
+              - link "主頁" [ref=e15] [cursor=pointer]:
+                - /url: /
+                - generic [ref=e16]: 主頁
+            - listitem [ref=e17]:
+              - link "文章目錄" [ref=e18] [cursor=pointer]:
+                - /url: /blog
+                - generic [ref=e19]: 文章目錄
+            - listitem [ref=e20]:
+              - link "Career Copilot" [ref=e21] [cursor=pointer]:
+                - /url: /career-copilot
+                - generic [ref=e22]: Career Copilot
+            - listitem [ref=e23]:
+              - link "作者" [ref=e24] [cursor=pointer]:
+                - /url: /author
+                - generic [ref=e25]: 作者
+            - listitem [ref=e26]:
+              - link "Tag" [ref=e27] [cursor=pointer]:
+                - /url: /tag
+                - generic [ref=e28]: Tag
+        - generic [ref=e29]:
+          - button "Switch to dark mode" [ref=e30]
+          - button "Open menu" [ref=e32]
+    - generic [ref=e34]:
+      - generic [ref=e36]:
+        - heading "Georgia Tech OMSCS 線上碩士" [level=1] [ref=e37]
+        - generic [ref=e38]: 4 episodes · by 小貓貓工程師
+        - paragraph [ref=e39]: 繼續深造！全職軟體工程師線上碩士心得以及經驗分享
+      - generic [ref=e40]:
+        - link "Blog" [ref=e41] [cursor=pointer]:
+          - /url: /blog
+        - text: /Georgia Tech OMSCS 線上碩士
+      - generic [ref=e42]:
+        - generic [ref=e44]:
+          - generic [ref=e45]: "00"
+          - link "hero Georgia Tech OMSCS 繼續深造的開始 正在讀這篇文章的你是否正在思考，花幾年時間讀上一個線上碩士到底是不適合自己。 當時的我也曾花了很長的時間去研究，讓我來分享一下當初我是怎麼做的決定，以及我最後的選擇 \"喬治亞理工 OMSCS\"。 Oct 15, 2024" [ref=e46] [cursor=pointer]:
+            - /url: /blog/omscs/00
+            - img "hero" [ref=e47]
+            - generic [ref=e48]:
+              - generic [ref=e49]: Georgia Tech OMSCS 繼續深造的開始
+              - generic [ref=e50]: 正在讀這篇文章的你是否正在思考，花幾年時間讀上一個線上碩士到底是不適合自己。 當時的我也曾花了很長的時間去研究，讓我來分享一下當初我是怎麼做的決定，以及我最後的選擇 "喬治亞理工 OMSCS"。
+              - generic [ref=e51]: Oct 15, 2024
+        - generic [ref=e52]:
+          - generic [ref=e53]: "1"
+          - link "hero CS6400 - 資料庫系統概念與設計 CS 6400 - Database Systems Concepts and Design (資料庫系統概念與設計)是一堂相較簡單的課程，也是我選擇的第一堂課。 這堂課的目標是想看看自己是否能夠在工作之餘兼顧學業，順帶複習一下大學時的資料庫課程以及工作上的應用。 Dec 20, 2024" [ref=e54] [cursor=pointer]:
+            - /url: /blog/omscs/01
+            - img "hero" [ref=e55]
+            - generic [ref=e56]:
+              - generic [ref=e57]: CS6400 - 資料庫系統概念與設計
+              - generic [ref=e58]: CS 6400 - Database Systems Concepts and Design (資料庫系統概念與設計)是一堂相較簡單的課程，也是我選擇的第一堂課。 這堂課的目標是想看看自己是否能夠在工作之餘兼顧學業，順帶複習一下大學時的資料庫課程以及工作上的應用。
+              - generic [ref=e59]: Dec 20, 2024
+        - generic [ref=e60]:
+          - generic [ref=e61]: "2"
+          - link "hero CS7646 - 機器學習與交易 CS 7646 - Machine Learning for Trading 是一堂用股票數據來入門機器學習的課程。 難度不高，但從手寫 Decision Tree 到 Q-Learning 交易策略，內容比想像中豐富。 Apr 3, 2026" [ref=e62] [cursor=pointer]:
+            - /url: /blog/omscs/02
+            - img "hero" [ref=e63]
+            - generic [ref=e64]:
+              - generic [ref=e65]: CS7646 - 機器學習與交易
+              - generic [ref=e66]: CS 7646 - Machine Learning for Trading 是一堂用股票數據來入門機器學習的課程。 難度不高，但從手寫 Decision Tree 到 Q-Learning 交易策略，內容比想像中豐富。
+              - generic [ref=e67]: Apr 3, 2026
+        - generic [ref=e68]:
+          - generic [ref=e69]: "3"
+          - link "hero CS7641 - 機器學習 CS 7641 - Machine Learning 是 OMSCS 中公認最難的課程之一。 五份實驗報告、龐大的數據集、沒有任何程式碼指引，讓我來分享這堂課的真實體驗。 Apr 3, 2026" [ref=e70] [cursor=pointer]:
+            - /url: /blog/omscs/03
+            - img "hero" [ref=e71]
+            - generic [ref=e72]:
+              - generic [ref=e73]: CS7641 - 機器學習
+              - generic [ref=e74]: CS 7641 - Machine Learning 是 OMSCS 中公認最難的課程之一。 五份實驗報告、龐大的數據集、沒有任何程式碼指引，讓我來分享這堂課的真實體驗。
+              - generic [ref=e75]: Apr 3, 2026
+    - generic [ref=e76]: Copyright © 2026 小貓貓工程師
+  - generic:
+    - img
+  - generic [ref=e77]:
+    - button "Toggle Nuxt DevTools" [ref=e78] [cursor=pointer]:
+      - img [ref=e79]
+    - generic "App load time" [ref=e82]:
+      - generic [ref=e83]: "243"
+      - generic [ref=e84]: ms
+    - button "Toggle Component Inspector" [ref=e86] [cursor=pointer]:
+      - img [ref=e87]
