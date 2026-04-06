@@ -36,9 +36,14 @@ const posts = computed(() => allPosts.value?.filter((_, i) => i !== featuredPost
                 :key="post._id"
                 :page="post" />
     </div>
-    <div class="grid-more font-family-edu text-center mb-10 text-4xl text-blue-700 hover:text-blue-500">
-      <a href="/blog">
-        Read more...
+
+    <div class="grid-more text-center my-16">
+      <a href="/blog"
+         class="inline-flex items-center gap-2 px-6 py-2 text-sm font-medium text-white bg-sky-900 rounded-full shadow-md hover:bg-sky-800 hover:shadow-lg transition-all duration-300 ease-in-out hover:-translate-y-0.5">
+        閱讀更多
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
       </a>
     </div>
   </div>
@@ -78,7 +83,7 @@ const posts = computed(() => allPosts.value?.filter((_, i) => i !== featuredPost
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   justify-items: center;
-  align-items: center;
+  align-items: start;
   row-gap: 2rem;
 }
 

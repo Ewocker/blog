@@ -17,23 +17,25 @@ const computedImageSrc = computed(computeImageSrc(props.page.image.src, path))
 
 <template>
   <div
-       class="border flex gap-4 m-2 rounded-md overflow-hidden hover:cursor-pointer transition duration-300 hover:shadow-black/50 ease-in-out hover:shadow-md">
+       class="flex gap-0 m-2 h-36 rounded-xl bg-white border border-gray-100 shadow-sm overflow-hidden hover:cursor-pointer transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-0.5">
     <a v-if="page.image"
-       :href="page._path">
-      <div class="group flex justify-center bg-gray-400 text-center relative overflow-hidden cursor-pointer w-52 h-32">
+       :href="page._path"
+       class="flex-shrink-0 h-full">
+      <div class="group flex justify-center text-center relative overflow-hidden cursor-pointer w-52 h-full">
         <img :src="computedImageSrc"
              :alt="page.image.alt"
-             class="object-cover ease-in-out duration-500 group-hover:rotate-6 group-hover:scale-125 w-full rounded-none" />
+             class="object-cover h-full w-full ease-in-out duration-500 group-hover:rotate-6 group-hover:scale-125" />
         <div class="absolute bg-black w-full h-full opacity-0 transition-opacity duration-500 group-hover:opacity-50" />
       </div>
     </a>
 
     <a v-if="page.title"
-       :href="page._path">
-      <div class="text-4xl font-semibold font-family-cyly pt-2 w-full">
+       :href="page._path"
+       class="p-4 flex flex-col justify-center overflow-hidden">
+      <div class="text-3xl font-semibold font-family-cyly text-gray-900 w-full">
         {{ page.title }}
       </div>
-      <div class="text-md w-full font-light line-clamp-3">
+      <div class="text-sm w-full font-light text-gray-600 mt-2 line-clamp-2">
         {{ page.description }}
       </div>
     </a>
