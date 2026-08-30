@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Golf Launch Monitor Comparison · 高爾夫發球監測數據比較</title>
+  <style>
+    :root {
+      --tier1: #E53935; /* Material Red 600 - Critical */
+      --tier2: #FB8C00; /* Material Orange 600 - High */
+      --tier3: #FDD835; /* Material Yellow 600 - Diagnostic */
+      --tier1-text: #fff;
+      --tier2-text: #3b0a0a;
+      --tier3-text: #3b0a0a;
+      --bg: #faf7f6;
+      --panel: #ffffff;
+      --ink: #2b2320;
+      --muted: #7a6f6a;
+      --line: #ecdedb;
+      --accent: #B71C1C;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC",
+        "Noto Sans TC", "Microsoft JhengHei", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 20px 16px 64px; }
+
+    /* Top bar */
+    .topbar {
+      display: flex; flex-wrap: wrap; gap: 12px;
+      align-items: center; justify-content: space-between;
+      padding-bottom: 16px; border-bottom: 2px solid var(--line);
+    }
+    .title { font-size: 1.35rem; font-weight: 800; letter-spacing: -0.01em; margin: 0; }
+    .title small { display: block; font-size: .8rem; font-weight: 500; color: var(--muted); margin-top: 2px; }
+    .topbar-controls { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+    /* Segmented toggles */
+    .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; background: var(--panel); }
+    .seg button {
+      border: 0; background: transparent; color: var(--muted);
+      padding: 6px 12px; font-size: .82rem; cursor: pointer; font-weight: 600;
+      transition: background .15s, color .15s;
+    }
+    .seg button.active { background: var(--accent); color: #fff; }
+    .seg button:not(.active):hover { background: #f3e7e5; }
+
+    /* Control panel */
+    .controls {
+      display: flex; flex-wrap: wrap; gap: 16px 24px; align-items: center;
+      margin: 18px 0; padding: 14px 16px; background: var(--panel);
+      border: 1px solid var(--line); border-radius: 14px;
+    }
+    .control-group { display: flex; align-items: center; gap: 8px; }
+    .control-group > label.lbl { font-size: .8rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+    select {
+      appearance: none; border: 1px solid var(--line); background: var(--bg);
+      border-radius: 8px; padding: 7px 30px 7px 12px; font-size: .9rem; font-weight: 600;
+      color: var(--ink); cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 4.5l3 3 3-3' stroke='%237a6f6a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 10px center;
+    }
+    .tierfilter { display: flex; gap: 6px; flex-wrap: wrap; }
+    .tierfilter label {
+      display: inline-flex; align-items: center; gap: 6px; font-size: .82rem; font-weight: 600;
+      padding: 5px 10px; border-radius: 999px; border: 1px solid var(--line); cursor: pointer; user-select: none;
+    }
+    .tierfilter input { accent-color: var(--accent); cursor: pointer; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+
+    /* Table */
+    .table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); }
+    table { border-collapse: collapse; width: 100%; min-width: 560px; }
+    thead th {
+      position: sticky; top: 0; background: var(--panel); z-index: 2;
+      text-align: right; padding: 14px 16px; font-size: .82rem; color: var(--muted);
+      border-bottom: 2px solid var(--line); font-weight: 800; white-space: nowrap;
+    }
+    thead th:first-child { text-align: left; }
+    tbody td { padding: 12px 16px; text-align: right; font-variant-numeric: tabular-nums; border-bottom: 1px solid var(--line); font-weight: 600; }
+    tbody tr:last-child td { border-bottom: 0; }
+    tbody tr:hover { background: #fdf5f4; }
+    .metric-cell { text-align: left; display: flex; align-items: center; gap: 8px; }
+    .tier-badge {
+      font-size: .62rem; font-weight: 800; padding: 2px 6px; border-radius: 5px;
+      letter-spacing: .03em; white-space: nowrap;
+    }
+    .metric-name { background: none; border: 0; padding: 0; font: inherit; color: var(--ink);
+      font-weight: 700; cursor: pointer; text-align: left; display: inline-flex; align-items: center; gap: 5px; }
+    .metric-name:hover { color: var(--accent); }
+    .metric-name .info { width: 15px; height: 15px; border-radius: 50%; border: 1.5px solid currentColor;
+      font-size: .62rem; display: inline-flex; align-items: center; justify-content: center; font-style: italic; opacity: .6; }
+    .unit { font-size: .72rem; color: var(--muted); font-weight: 500; margin-left: 3px; }
+
+    /* Dashboard */
+    thead th.sortable { cursor: pointer; user-select: none; }
+    thead th.sortable:hover { color: var(--accent); }
+    thead th.sortable .caret { font-size: .7rem; margin-left: 3px; opacity: .35; }
+    thead th.sortable.active { color: var(--accent); }
+    thead th.sortable.active .caret { opacity: 1; }
+    .dash th .th-inner { display: inline-flex; align-items: center; gap: 5px; justify-content: flex-end; }
+    .dash th:first-child .th-inner { justify-content: flex-start; }
+    .dash th .info { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid currentColor;
+      font-size: .58rem; display: inline-flex; align-items: center; justify-content: center; font-style: italic; opacity: .55; }
+    .dash td.club-cell { text-align: left; font-weight: 700; white-space: nowrap; }
+    .dash tbody td { padding: 8px 14px; }
+    .dash .stack { display: flex; flex-direction: column; gap: 1px; line-height: 1.25; }
+    .dash .stack span { font-size: .82rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+    /* Cards */
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
+    .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; }
+    .card-head { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+    .card-rows { display: flex; flex-direction: column; gap: 9px; }
+    .card-row { display: grid; grid-template-columns: 84px 1fr auto; align-items: center; gap: 10px; }
+    .cr-name { font-size: .78rem; font-weight: 600; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+    .cr-bar { height: 8px; background: var(--bg); border-radius: 5px; overflow: hidden; }
+    .cr-fill { display: block; height: 100%; border-radius: 5px; }
+    .cr-val { font-size: .9rem; font-weight: 800; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+
+    /* Trajectory */
+    .traj-card { margin-top: 22px; padding: 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; }
+    .traj-head { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+    .traj-head h2 { margin: 0; font-size: 1rem; }
+    .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: .78rem; color: var(--muted); }
+    .legend span { display: inline-flex; align-items: center; gap: 6px; }
+    canvas { width: 100%; height: auto; display: block; }
+
+    .disclaimer { margin-top: 18px; font-size: .76rem; color: var(--muted); line-height: 1.5; }
+
+    /* Modal */
+    .overlay { position: fixed; inset: 0; background: rgba(30,15,12,.55); display: none;
+      align-items: center; justify-content: center; padding: 16px; z-index: 50; }
+    .overlay.open { display: flex; }
+    .modal { background: var(--panel); border-radius: 16px; max-width: 520px; width: 100%;
+      max-height: 85vh; overflow-y: auto; padding: 24px; box-shadow: 0 20px 60px rgba(0,0,0,.3); }
+    .modal-head { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+    .modal h3 { margin: 0; font-size: 1.2rem; }
+    .modal .formula { display: inline-block; margin: 10px 0; padding: 6px 12px; background: var(--bg);
+      border-radius: 8px; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: .85rem; }
+    .modal dl { margin: 14px 0 0; }
+    .modal dt { font-weight: 800; font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; color: var(--accent); margin-top: 14px; }
+    .modal dd { margin: 4px 0 0; line-height: 1.55; font-size: .92rem; }
+    .modal-close { float: right; border: 0; background: var(--bg); width: 32px; height: 32px; border-radius: 50%;
+      font-size: 1.1rem; cursor: pointer; color: var(--muted); line-height: 1; }
+    .modal-close:hover { background: #f3e7e5; color: var(--accent); }
+
+    @media (max-width: 560px) {
+      .title { font-size: 1.1rem; }
+      .controls { gap: 12px 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <h1 class="title" id="app-title">
+        <span data-i18n="title">Launch Monitor Comparison</span>
+        <small data-i18n="subtitle">Metrics across skill tiers · reference estimates</small>
+      </h1>
+      <div class="topbar-controls">
+        <div class="seg" id="unit-seg" role="group" aria-label="units"></div>
+        <div class="seg" id="lang-seg" role="group" aria-label="language">
+          <button data-lang="en">EN</button>
+          <button data-lang="zh">繁中</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <div class="control-group">
+        <label class="lbl" data-i18n="view">View</label>
+        <div class="seg" id="view-seg" role="group" aria-label="view"></div>
+      </div>
+      <div class="control-group" id="club-ctrl">
+        <label class="lbl" for="club-select" data-i18n="club">Club</label>
+        <select id="club-select"></select>
+      </div>
+      <div class="control-group">
+        <label class="lbl" data-i18n="gender">Gender</label>
+        <div class="seg" id="gender-seg" role="group" aria-label="gender"></div>
+      </div>
+      <div class="control-group">
+        <label class="lbl" data-i18n="skill">Skill</label>
+        <div class="tierfilter" id="skill-filter"></div>
+      </div>
+      <div class="control-group">
+        <label class="lbl" data-i18n="tiers">Metrics</label>
+        <div class="tierfilter" id="tier-filter"></div>
+      </div>
+    </div>
+
+    <div class="table-scroll">
+      <table>
+        <thead><tr id="table-head"></tr></thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+
+    <div class="cards" id="cards" style="display:none"></div>
+
+    <div class="traj-card" id="traj-card">
+      <div class="traj-head">
+        <h2 data-i18n="trajectory">Trajectory preview</h2>
+        <div class="legend" id="traj-legend"></div>
+      </div>
+      <canvas id="traj-canvas" width="1000" height="360" role="img"></canvas>
+    </div>
+
+    <p class="disclaimer" data-i18n="disclaimer"></p>
+  </div>
+
+  <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal" id="modal">
+      <button class="modal-close" id="modal-close" aria-label="Close">&times;</button>
+      <div class="modal-head">
+        <span class="tier-badge" id="modal-badge"></span>
+        <h3 id="modal-title"></h3>
+      </div>
+      <code class="formula" id="modal-formula"></code>
+      <dl>
+        <dt data-i18n="def">Definition</dt><dd id="modal-def"></dd>
+        <dt data-i18n="effect">Shot outcome effect</dt><dd id="modal-effect"></dd>
+        <dt data-i18n="fault">Common fault</dt><dd id="modal-fault"></dd>
+      </dl>
+    </div>
+  </div>
+
+  <script>
+  //== i18n =====================================================================
+  const I18N = {
+    en: {
+      title: "Launch Monitor Comparison",
+      subtitle: "Metrics across skill tiers · reference estimates",
+      club: "Club", gender: "Gender", tiers: "Metrics", skill: "Skill",
+      view: "View", compare: "Compare", cards: "Cards", dashboard: "Dashboard",
+      trajectory: "Trajectory preview",
+      def: "Definition", effect: "Shot outcome effect", fault: "Common fault",
+      Men: "Men", Women: "Women",
+      Beginner: "Beginner", Amateur: "Amateur", Tour_Pro: "Tour Pro",
+      Beginner_sub: "20+ HCP", Amateur_sub: "10–15 HCP", Tour_Pro_sub: "PGA / LPGA",
+      t1: "Distance", t2: "Trajectory", t3: "Delivery",
+      disclaimer: "All values are reference estimates extrapolated from published TrackMan PGA/LPGA tour averages and USGA/FlightScope handicap statistics — not your own launch-monitor data. Individual results vary widely with equipment, ball, and conditions.",
+      dist: "distance", ht: "height",
+    },
+    zh: {
+      title: "發球監測數據比較",
+      subtitle: "不同球技等級的數據對照 · 參考估計值",
+      club: "球桿", gender: "性別", tiers: "數據", skill: "等級",
+      view: "檢視", compare: "比較", cards: "卡片", dashboard: "總覽",
+      trajectory: "彈道預覽",
+      def: "定義", effect: "對擊球結果的影響", fault: "常見失誤",
+      Men: "男性", Women: "女性",
+      Beginner: "初學者", Amateur: "業餘", Tour_Pro: "職業巡迴",
+      Beginner_sub: "差點 20+", Amateur_sub: "差點 10–15", Tour_Pro_sub: "PGA / LPGA",
+      t1: "距離", t2: "彈道", t3: "傳遞",
+      disclaimer: "所有數值皆為參考估計值，根據公開的 TrackMan PGA/LPGA 巡迴賽平均值與 USGA/FlightScope 差點統計推算而來，並非你個人的監測數據。實際結果會因球桿、球種與環境條件而有很大差異。",
+      dist: "距離", ht: "高度",
+    }
+  };
+
+  //== Metric metadata (13) =====================================================
+  // key: dataset field | tier: 1|2|3 | tabular: appears as a table row
+  const METRICS = [
+    { id: "club_speed", tier: 3, tabular: true, unit: "speed",
+      en: { name: "Club Speed", formula: "",
+        def: "Speed of the clubhead immediately prior to impact.",
+        effect: "Sets the theoretical ceiling for potential ball speed and distance.",
+        fault: "Casting and early release bleed speed before impact." },
+      zh: { name: "桿頭速度 (Club Speed)", formula: "",
+        def: "撞擊前一瞬間桿頭的速度。",
+        effect: "決定球速與距離的理論上限。",
+        fault: "過早釋放（casting）會在撞擊前流失速度。" } },
+    { id: "ball_speed", tier: 1, tabular: true, unit: "speed",
+      en: { name: "Ball Speed", formula: "",
+        def: "Velocity of the golf ball immediately after leaving the clubface.",
+        effect: "The primary driver of carry distance (1 mph ≈ 2.0–2.3 yd on a driver).",
+        fault: "Off-center strikes drop ball speed even at high club speed." },
+      zh: { name: "球速 (Ball Speed)", formula: "",
+        def: "球離開桿面後的初始速度。",
+        effect: "決定飛行距離的主要因素（開球時 1 mph ≈ 2.0–2.3 碼）。",
+        fault: "非甜蜜點擊球即使揮桿再快，球速也會下降。" } },
+    { id: "smash", tier: 1, tabular: true, unit: "ratio",
+      en: { name: "Smash Factor", formula: "Ball Speed / Club Speed",
+        def: "Ratio of energy transferred from the clubhead to the golf ball.",
+        effect: "Quantifies center-face contact quality. Drivers cap ~1.50; wedges naturally ~1.15–1.25.",
+        fault: "Toe/heel or high-face contact drops smash below 1.35 on a driver." },
+      zh: { name: "擊球效率 (Smash Factor)", formula: "球速 / 桿頭速度",
+        def: "桿頭傳遞到球的能量比值。",
+        effect: "量化甜蜜點擊球品質。開球桿上限約 1.50；挖起桿自然落在 1.15–1.25。",
+        fault: "打到桿趾／桿跟或桿面偏高，開球桿 smash 會掉到 1.35 以下。" } },
+    { id: "launch_angle", tier: 2, tabular: true, unit: "deg",
+      en: { name: "Launch Angle", formula: "",
+        def: "Vertical angle of the ball relative to the ground on separation.",
+        effect: "Too low dives with excess roll; too high balloons and loses distance into wind.",
+        fault: "Hitting down excessively lowers launch and inflates spin." },
+      zh: { name: "發射角 (Launch Angle)", formula: "",
+        def: "球離開桿面時相對地面的垂直角度。",
+        effect: "太低會俯衝、滾動過多；太高會飄球，逆風時損失距離。",
+        fault: "過度下壓擊球會降低發射角並拉高倒旋。" } },
+    { id: "height", tier: 2, tabular: true, unit: "height",
+      en: { name: "Apex Height", formula: "",
+        def: "Maximum height of the ball flight.",
+        effect: "Keeps the ball airborne long enough for optimal carry and a steep landing.",
+        fault: "Too low reduces carry and stopping power on greens." },
+      zh: { name: "最高點 (Apex)", formula: "",
+        def: "球飛行的最高高度。",
+        effect: "讓球滯空足夠久以取得最佳飛行距離與較陡的落地角。",
+        fault: "太低會減少飛行距離與果嶺上的停球能力。" } },
+    { id: "carry", tier: 1, tabular: true, unit: "dist",
+      en: { name: "Carry Distance", formula: "",
+        def: "Distance traveled through the air before contacting the turf.",
+        effect: "The essential number for clearing hazards and landing on target greens.",
+        fault: "Inconsistent strike quality makes carry unpredictable." },
+      zh: { name: "飛行距離 (Carry)", formula: "",
+        def: "球落地前在空中飛行的距離。",
+        effect: "越過障礙、精準落在果嶺的關鍵數字。",
+        fault: "擊球品質不穩會讓飛行距離難以預測。" } },
+    { id: "total", tier: 1, tabular: true, unit: "dist",
+      en: { name: "Total Distance", formula: "Carry + Rollout",
+        def: "Carry distance plus ground rollout.",
+        effect: "Critical for course management and club selection off the tee.",
+        fault: "Low spin/steep land angle changes rollout dramatically." },
+      zh: { name: "總距離 (Total)", formula: "飛行距離 + 滾動",
+        def: "飛行距離加上落地後的滾動。",
+        effect: "球道策略與開球選桿的關鍵。",
+        fault: "倒旋低或落地角陡，滾動距離會有很大差異。" } },
+    { id: "spin", tier: 2, tabular: true, unit: "rpm",
+      en: { name: "Spin Rate", formula: "",
+        def: "Backspin velocity in revolutions per minute (RPM).",
+        effect: "Generates lift and stopping power. Low driver spin adds roll; high iron spin holds greens.",
+        fault: "Excess driver spin balloons flight and loses distance." },
+      zh: { name: "倒旋轉速 (Spin Rate)", formula: "",
+        def: "後旋轉速，單位為每分鐘轉數（RPM）。",
+        effect: "產生升力與停球能力。開球倒旋低會增加滾動；鐵桿倒旋高能咬住果嶺。",
+        fault: "開球倒旋過多會使彈道飄高、損失距離。" } },
+    { id: "aoa", tier: 3, tabular: true, unit: "deg",
+      en: { name: "Angle of Attack", formula: "",
+        def: "Vertical direction of clubhead travel at impact (+ up, − down).",
+        effect: "Downward strikes compress irons; +2° to +4° maximizes driver distance with low spin.",
+        fault: "Hitting down on a driver spikes spin and shrinks carry." },
+      zh: { name: "攻擊角 (Angle of Attack)", formula: "",
+        def: "撞擊時桿頭移動的垂直方向（正為向上、負為向下）。",
+        effect: "向下擊球能壓縮鐵桿；開球以 +2°～+4° 向上擊球可搭配低倒旋取得最大距離。",
+        fault: "開球向下擊球會使倒旋暴增、飛行距離縮短。" } },
+    { id: "land_angle", tier: 2, tabular: true, unit: "deg",
+      en: { name: "Descent / Land Angle", formula: "",
+        def: "Angle of the ball relative to the ground upon landing.",
+        effect: "Values above ~45° are needed to hold firm greens without running off the back.",
+        fault: "Shallow landing angle runs the ball off the green." },
+      zh: { name: "落地角 (Land Angle)", formula: "",
+        def: "球落地時相對地面的角度。",
+        effect: "約 45° 以上才能在硬果嶺上停住、不衝出後緣。",
+        fault: "落地角太淺會讓球衝出果嶺。" } },
+    // Diagnostic-only (no per-tier table values)
+    { id: "launch_direction", tier: 3, tabular: true, unit: "deg",
+      en: { name: "Launch Direction", formula: "",
+        def: "Horizontal start angle relative to the target line (0°). The value shown is the typical start-line deviation (how far off line the ball tends to start) — average launch direction is ~0° for every tier, so dispersion is what separates skill levels.",
+        effect: "Dictates whether the shot starts left, straight, or right — governed ~75–85% by face angle at impact. Tighter deviation means more shots start on the intended line.",
+        fault: "An open/closed face at impact starts the ball off line; inconsistent face control widens the deviation." },
+      zh: { name: "起始方向 (Launch Direction)", formula: "",
+        def: "相對目標線（0°）的水平起始角度。表中數值為典型的起始偏離量（球起始通常偏離目標線多少）——各等級的平均起始方向都約為 0°，真正拉開差距的是離散度。",
+        effect: "決定球起始往左、直線或往右——約 75–85% 由撞擊時的桿面角度決定。偏離量越小，代表越多球從目標線起始。",
+        fault: "撞擊時桿面開／閉會讓球起始偏離目標線；桿面控制不穩會擴大偏離量。" } },
+    { id: "spin_axis", tier: 3, tabular: false, unit: "deg",
+      en: { name: "Spin Axis / Side Spin", formula: "",
+        def: "Degree of tilt of the ball's rotational axis.",
+        effect: "Left tilt creates draw/hook curvature; right tilt creates fade/slice curvature.",
+        fault: "Large axis tilt turns a small miss into a big curve." },
+      zh: { name: "旋轉軸 / 側旋 (Spin Axis)", formula: "",
+        def: "球旋轉軸的傾斜程度。",
+        effect: "向左傾產生 draw/hook 曲線；向右傾產生 fade/slice 曲線。",
+        fault: "旋轉軸傾斜過大，會把小失誤放大成大幅彎曲。" } },
+    { id: "face_to_path", tier: 3, tabular: false, unit: "deg",
+      en: { name: "Face-to-Path", formula: "Face Angle − Path Angle",
+        def: "Difference between clubface angle and swing path angle at impact.",
+        effect: "The fundamental physical trigger of ball curvature and spin axis tilt.",
+        fault: "A large face-to-path gap is the root cause of slices and hooks." },
+      zh: { name: "桿面與路徑差 (Face-to-Path)", formula: "桿面角 − 揮桿路徑角",
+        def: "撞擊時桿面角度與揮桿路徑角度的差值。",
+        effect: "球彎曲與旋轉軸傾斜的根本物理成因。",
+        fault: "桿面與路徑差過大是 slice 與 hook 的根源。" } },
+  ];
+  const METRIC_BY_ID = Object.fromEntries(METRICS.map(m => [m.id, m]));
+
+  //== Dataset (imperial base units) ============================================
+  // order: [club_speed(mph), ball_speed(mph), smash, launch_angle(deg),
+  //         height(ft), carry(yd), total(yd), spin(rpm), aoa(deg), land_angle(deg)]
+  const CLUBS = ["Driver","3-Wood","5-Wood","7-Wood","3-Hybrid","4-Hybrid",
+    "3-Iron","4-Iron","5-Iron","6-Iron","7-Iron","8-Iron","9-Iron","PW","GW","SW","LW"];
+  const ORDER = ["club_speed","ball_speed","smash","launch_angle","height","carry","total","spin","aoa","land_angle"];
+
+  const RAW = {
+    Men: {
+      Tour_Pro: {
+        "Driver":[113,167,1.48,10.9,96,275,296,2686,-1.3,38],
+        "3-Wood":[107,158,1.48,9.2,87,243,262,3655,-2.9,37],
+        "5-Wood":[103,152,1.47,9.4,90,230,248,4350,-3.0,39],
+        "7-Wood":[100,147,1.47,11.0,95,220,236,4700,-3.2,42],
+        "3-Hybrid":[98,142,1.45,10.2,92,210,226,4400,-3.5,43],
+        "4-Hybrid":[96,138,1.44,10.9,93,200,215,4700,-3.7,44],
+        "3-Iron":[98,142,1.45,10.3,90,212,226,4404,-3.1,43],
+        "4-Iron":[96,137,1.43,10.4,92,203,216,4831,-3.4,45],
+        "5-Iron":[94,132,1.41,11.9,94,194,205,5361,-3.5,46],
+        "6-Iron":[92,127,1.38,14.0,95,183,193,6231,-3.9,48],
+        "7-Iron":[90,120,1.33,16.3,96,172,185,7097,-4.3,49],
+        "8-Iron":[87,115,1.32,17.8,95,160,167,7998,-4.5,50],
+        "9-Iron":[85,109,1.28,20.0,93,148,154,8647,-4.7,51],
+        "PW":[83,102,1.23,24.2,91,136,141,9304,-5.0,52],
+        "GW":[79,92,1.16,27.0,84,115,119,9500,-5.2,53],
+        "SW":[76,85,1.12,30.0,78,98,101,9800,-5.4,54],
+        "LW":[72,78,1.08,34.0,70,80,82,10000,-5.6,55]
+      },
+      Amateur: {
+        "Driver":[93,133,1.43,12.6,78,215,236,3275,-1.6,35],
+        "3-Wood":[88,125,1.42,11.5,70,195,212,3900,-2.8,34],
+        "5-Wood":[85,119,1.40,12.0,72,183,198,4500,-3.0,36],
+        "7-Wood":[82,114,1.39,13.5,74,172,185,4900,-3.2,39],
+        "3-Hybrid":[81,112,1.38,12.5,72,168,181,4700,-3.4,40],
+        "4-Hybrid":[80,109,1.36,13.2,72,160,172,4900,-3.6,41],
+        "3-Iron":[82,112,1.37,12.0,70,165,178,4800,-3.0,41],
+        "4-Iron":[80,108,1.35,13.0,71,156,167,5200,-3.2,43],
+        "5-Iron":[78,103,1.32,14.5,72,146,156,5700,-3.4,44],
+        "6-Iron":[76,98,1.29,16.5,72,136,145,6500,-3.7,46],
+        "7-Iron":[74,98,1.32,18.5,72,138,146,6400,-4.0,47],
+        "8-Iron":[71,92,1.30,20.5,71,127,135,7100,-4.2,49],
+        "9-Iron":[69,86,1.25,22.5,68,116,123,7700,-4.4,50],
+        "PW":[67,80,1.19,26.0,64,104,110,8100,-4.6,51],
+        "GW":[64,72,1.13,29.0,58,90,95,8400,-4.8,52],
+        "SW":[61,66,1.08,32.0,52,77,81,8700,-5.0,53],
+        "LW":[58,59,1.02,36.0,46,63,66,8900,-5.2,54]
+      },
+      Beginner: {
+        "Driver":[80,110,1.37,14.0,60,175,195,3800,-2.5,32],
+        "3-Wood":[76,103,1.36,13.0,55,158,174,4300,-3.2,32],
+        "5-Wood":[73,98,1.34,13.5,56,148,162,4800,-3.4,34],
+        "7-Wood":[70,93,1.33,15.0,57,138,150,5200,-3.6,37],
+        "3-Hybrid":[70,92,1.31,14.0,55,135,147,5000,-3.8,38],
+        "4-Hybrid":[69,89,1.29,14.8,55,128,139,5200,-4.0,39],
+        "3-Iron":[70,92,1.31,13.5,53,130,142,5100,-3.2,39],
+        "4-Iron":[69,88,1.28,14.8,54,122,132,5500,-3.4,41],
+        "5-Iron":[67,83,1.24,16.5,55,113,122,6000,-3.6,42],
+        "6-Iron":[68,84,1.24,16.5,58,118,127,6000,-3.6,42],
+        "7-Iron":[62,79,1.27,18.5,56,106,114,5700,-3.8,43],
+        "8-Iron":[61,74,1.21,20.5,54,97,104,6300,-4.0,45],
+        "9-Iron":[59,69,1.17,22.5,51,88,94,6800,-4.2,46],
+        "PW":[57,64,1.12,26.0,48,79,84,7200,-4.4,48],
+        "GW":[55,58,1.05,29.0,44,68,72,7400,-4.6,49],
+        "SW":[53,52,0.98,32.0,40,57,60,7600,-4.8,50],
+        "LW":[50,46,0.92,36.0,35,46,48,7800,-5.0,51]
+      }
+    },
+    Women: {
+      Tour_Pro: {
+        "Driver":[94,140,1.49,13.2,75,218,242,2611,3.0,37],
+        "3-Wood":[90,132,1.47,11.2,68,195,212,2705,-2.5,36],
+        "5-Wood":[88,128,1.45,12.1,69,185,200,3200,-2.8,38],
+        "7-Wood":[85,123,1.44,12.7,71,174,187,3900,-3.0,41],
+        "3-Hybrid":[85,120,1.41,11.9,68,172,184,3800,-3.2,42],
+        "4-Hybrid":[83,116,1.40,12.7,68,163,174,4100,-3.4,43],
+        "3-Iron":[84,118,1.40,11.5,66,168,180,4200,-2.8,42],
+        "4-Iron":[82,113,1.38,12.9,68,161,172,4700,-3.0,43],
+        "5-Iron":[79,111,1.40,14.5,72,161,171,5250,-3.1,44],
+        "6-Iron":[78,108,1.38,15.6,76,152,162,5820,-3.3,45],
+        "7-Iron":[76,104,1.37,17.1,79,141,151,6403,-3.5,47],
+        "8-Iron":[74,100,1.35,19.0,78,130,139,7000,-3.7,48],
+        "9-Iron":[72,95,1.32,21.0,76,119,127,7600,-3.9,49],
+        "PW":[70,89,1.27,24.5,72,107,113,8200,-4.1,50],
+        "GW":[67,82,1.22,28.0,66,94,99,8500,-4.3,52],
+        "SW":[64,74,1.16,31.0,60,80,84,8800,-4.5,53],
+        "LW":[61,67,1.10,35.0,54,66,69,9000,-4.7,54]
+      },
+      Amateur: {
+        "Driver":[72,99,1.38,14.5,55,150,170,3400,-1.0,33],
+        "3-Wood":[69,93,1.35,13.0,50,135,152,3900,-2.5,33],
+        "5-Wood":[67,89,1.33,13.8,51,128,142,4400,-2.8,35],
+        "7-Wood":[65,85,1.31,15.0,52,120,132,4800,-3.0,38],
+        "3-Hybrid":[65,84,1.29,14.0,50,117,128,4700,-3.2,39],
+        "4-Hybrid":[64,81,1.27,14.9,50,111,121,4900,-3.4,40],
+        "3-Iron":[65,84,1.29,13.0,48,115,126,4800,-2.8,40],
+        "4-Iron":[64,80,1.25,14.5,49,108,117,5300,-3.0,42],
+        "5-Iron":[62,76,1.23,16.0,50,100,109,5800,-3.2,43],
+        "6-Iron":[61,72,1.18,17.8,50,93,101,6500,-3.4,45],
+        "7-Iron":[59,68,1.15,19.5,49,86,93,6900,-3.6,46],
+        "8-Iron":[58,64,1.10,21.5,47,78,84,7400,-3.8,48],
+        "9-Iron":[56,59,1.05,23.5,44,70,75,7900,-4.0,49],
+        "PW":[54,54,1.00,27.0,40,62,66,8300,-4.2,50],
+        "GW":[52,49,0.94,30.0,36,53,56,8500,-4.4,51],
+        "SW":[50,44,0.88,33.0,32,44,46,8700,-4.6,52],
+        "LW":[47,39,0.83,37.0,28,36,38,8900,-4.8,53]
+      },
+      Beginner: {
+        "Driver":[60,78,1.30,15.5,42,115,132,4000,-2.0,30],
+        "3-Wood":[57,72,1.26,14.0,38,103,117,4400,-2.8,30],
+        "5-Wood":[55,68,1.24,14.8,39,97,109,4800,-3.0,32],
+        "7-Wood":[53,65,1.23,16.0,40,91,101,5100,-3.2,35],
+        "3-Hybrid":[54,64,1.19,15.0,38,88,98,5000,-3.4,36],
+        "4-Hybrid":[53,62,1.17,15.8,38,84,93,5200,-3.6,37],
+        "3-Iron":[54,64,1.19,14.0,36,87,97,5100,-3.0,37],
+        "4-Iron":[53,61,1.15,15.5,37,81,89,5500,-3.2,39],
+        "5-Iron":[51,57,1.12,17.0,38,74,82,6000,-3.4,40],
+        "6-Iron":[50,54,1.08,18.8,38,68,75,6600,-3.6,42],
+        "7-Iron":[48,51,1.06,20.5,37,62,68,7000,-3.8,43],
+        "8-Iron":[47,47,1.00,22.5,35,56,61,7500,-4.0,45],
+        "9-Iron":[45,43,0.96,24.5,32,49,53,7900,-4.2,46],
+        "PW":[43,38,0.88,28.0,29,42,45,8200,-4.4,47],
+        "GW":[41,34,0.83,31.0,25,35,37,8400,-4.6,48],
+        "SW":[39,30,0.77,34.0,22,28,30,8600,-4.8,49],
+        "LW":[37,26,0.70,38.0,18,22,23,8800,-5.0,50]
+      }
+    }
+  };
+  // launch_direction = typical absolute start-line deviation (deg off target).
+  // Average launch direction is ~0 for all tiers (they aim at target); the
+  // tier-differentiating quantity is dispersion — larger for lower skill and
+  // longer clubs. Derived per tier×club rather than stored per row.
+  const LDIR_TIER = { Tour_Pro: 0.8, Amateur: 2.2, Beginner: 3.8 };
+  const LDIR_CLUB = {
+    "Driver": 1.30, "3-Wood": 1.25, "5-Wood": 1.20, "7-Wood": 1.15,
+    "3-Hybrid": 1.15, "4-Hybrid": 1.10, "3-Iron": 1.10, "4-Iron": 1.05,
+    "5-Iron": 1.00, "6-Iron": 0.95, "7-Iron": 0.90, "8-Iron": 0.85,
+    "9-Iron": 0.80, "PW": 0.75, "GW": 0.72, "SW": 0.70, "LW": 0.68
+  };
+
+  // expand arrays -> objects keyed by field
+  const DATA = {};
+  for (const g of Object.keys(RAW)) {
+    DATA[g] = {};
+    for (const t of Object.keys(RAW[g])) {
+      DATA[g][t] = {};
+      for (const c of Object.keys(RAW[g][t])) {
+        const arr = RAW[g][t][c];
+        DATA[g][t][c] = Object.fromEntries(ORDER.map((k, i) => [k, arr[i]]));
+        DATA[g][t][c].launch_direction = Math.round(LDIR_TIER[t] * LDIR_CLUB[c] * 10) / 10;
+      }
+    }
+  }
+
+  //== Unit engine ==============================================================
+  const UNITS = {
+    imperial: { key: "imperial", label: "Imperial",
+      speed: { f: v => v, s: "mph", d: 0 },
+      dist:  { f: v => v, s: "yd", d: 0 },
+      height:{ f: v => v, s: "ft", d: 0 } },
+    ms: { key: "ms", label: "m/s",
+      speed: { f: v => v * 0.44704, s: "m/s", d: 1 },
+      dist:  { f: v => v * 0.9144, s: "m", d: 0 },
+      height:{ f: v => v * 0.3048, s: "m", d: 0 } },
+    kmh: { key: "kmh", label: "km/h",
+      speed: { f: v => v * 1.60934, s: "km/h", d: 0 },
+      dist:  { f: v => v * 0.9144, s: "m", d: 0 },
+      height:{ f: v => v * 0.3048, s: "m", d: 0 } },
+  };
+
+  function fmt(metric, value) {
+    const U = UNITS[state.unit];
+    switch (metric.unit) {
+      case "speed": { const u = U.speed; return { v: u.f(value).toFixed(u.d), s: u.s }; }
+      case "dist":  { const u = U.dist;  return { v: Math.round(u.f(value)).toString(), s: u.s }; }
+      case "height":{ const u = U.height;return { v: Math.round(u.f(value)).toString(), s: u.s }; }
+      case "deg":   return { v: value.toFixed(1), s: "°" };
+      case "rpm":   return { v: Math.round(value).toLocaleString("en-US"), s: "rpm" };
+      case "ratio": return { v: value.toFixed(2), s: "" };
+      default:      return { v: String(value), s: "" };
+    }
+  }
+
+  //== State ====================================================================
+  const TIERS = ["Beginner", "Amateur", "Tour_Pro"];
+  const TIER_COLORS = { 1: "var(--tier1)", 2: "var(--tier2)", 3: "var(--tier3)" };
+  const TIER_HEX = { 1: "#E53935", 2: "#FB8C00", 3: "#FDD835" };
+  const TIER_TEXT = { 1: "var(--tier1-text)", 2: "var(--tier2-text)", 3: "var(--tier3-text)" };
+  const TRAJ_HEX = { Beginner: "#E57373", Amateur: "#E53935", Tour_Pro: "#B71C1C" };
+
+  const state = {
+    lang: "zh",
+    unit: "imperial",
+    gender: "Men",
+    club: "7-Iron",
+    activeTiers: { 1: true, 2: true, 3: true },
+    skillOn: { Beginner: true, Amateur: true, Tour_Pro: true },
+    view: "compare",
+    sort: { key: "club", dir: 1 },
+  };
+  const visibleSkills = () => TIERS.filter(s => state.skillOn[s]);
+  const t = k => (I18N[state.lang][k] ?? I18N.en[k] ?? k);
+
+  //== Rendering ================================================================
+  function renderStatic() {
+    document.documentElement.lang = state.lang === "zh" ? "zh-Hant" : "en";
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      el.textContent = t(el.dataset.i18n);
+    });
+    // lang seg
+    document.querySelectorAll("#lang-seg button").forEach(b =>
+      b.classList.toggle("active", b.dataset.lang === state.lang));
+  }
+
+  function renderUnitSeg() {
+    const seg = document.getElementById("unit-seg");
+    seg.innerHTML = "";
+    for (const u of Object.values(UNITS)) {
+      const b = document.createElement("button");
+      b.textContent = u.label;
+      b.classList.toggle("active", state.unit === u.key);
+      b.onclick = () => { state.unit = u.key; render(); renderUnitSeg(); };
+      seg.appendChild(b);
+    }
+  }
+
+  function renderGenderSeg() {
+    const seg = document.getElementById("gender-seg");
+    seg.innerHTML = "";
+    for (const g of ["Men", "Women"]) {
+      const b = document.createElement("button");
+      b.textContent = t(g);
+      b.classList.toggle("active", state.gender === g);
+      b.onclick = () => { state.gender = g; render(); renderGenderSeg(); };
+      seg.appendChild(b);
+    }
+  }
+
+  function renderClubSelect() {
+    const sel = document.getElementById("club-select");
+    sel.innerHTML = "";
+    for (const c of CLUBS) {
+      const o = document.createElement("option");
+      o.value = c; o.textContent = c; o.selected = c === state.club;
+      sel.appendChild(o);
+    }
+    sel.onchange = () => { state.club = sel.value; render(); };
+  }
+
+  function renderTierFilter() {
+    const box = document.getElementById("tier-filter");
+    box.innerHTML = "";
+    [1, 2, 3].forEach(tier => {
+      const label = document.createElement("label");
+      const cb = document.createElement("input");
+      cb.type = "checkbox"; cb.checked = state.activeTiers[tier];
+      cb.onchange = () => { state.activeTiers[tier] = cb.checked; render(); };
+      const dot = document.createElement("span");
+      dot.className = "dot"; dot.style.background = TIER_COLORS[tier];
+      const span = document.createElement("span");
+      span.textContent = t("t" + tier);
+      label.append(cb, dot, span);
+      box.appendChild(label);
+    });
+  }
+
+  function renderSkillFilter() {
+    const box = document.getElementById("skill-filter");
+    box.innerHTML = "";
+    TIERS.forEach(skill => {
+      const label = document.createElement("label");
+      const cb = document.createElement("input");
+      cb.type = "checkbox"; cb.checked = state.skillOn[skill];
+      cb.onchange = () => { state.skillOn[skill] = cb.checked; render(); };
+      const dot = document.createElement("span");
+      dot.className = "dot"; dot.style.background = TRAJ_HEX[skill];
+      const span = document.createElement("span");
+      span.textContent = t(skill);
+      label.append(cb, dot, span);
+      box.appendChild(label);
+    });
+  }
+
+  function tierBadge(tier) {
+    const el = document.createElement("span");
+    el.className = "tier-badge";
+    el.style.background = TIER_COLORS[tier];
+    el.style.color = TIER_TEXT[tier];
+    el.textContent = "T" + tier;
+    return el;
+  }
+
+  function renderTable() {
+    const head = document.getElementById("table-head");
+    head.innerHTML = "";
+    const mh = document.createElement("th");
+    mh.textContent = t("club") + " · " + state.club;
+    head.appendChild(mh);
+    const skills = visibleSkills();
+    for (const tier of skills) {
+      const th = document.createElement("th");
+      th.innerHTML = `${t(tier)}<div class="unit" style="text-align:right">${t(tier + "_sub")}</div>`;
+      head.appendChild(th);
+    }
+
+    const body = document.getElementById("table-body");
+    body.innerHTML = "";
+    const rows = METRICS.filter(m => m.tabular && state.activeTiers[m.tier]);
+    for (const m of rows) {
+      const tr = document.createElement("tr");
+      const nameTd = document.createElement("td");
+      nameTd.className = "metric-cell";
+      nameTd.appendChild(tierBadge(m.tier));
+      const btn = document.createElement("button");
+      btn.className = "metric-name";
+      btn.innerHTML = `${m[state.lang].name} <span class="info">i</span>`;
+      btn.onclick = () => openModal(m.id, btn);
+      nameTd.appendChild(btn);
+      tr.appendChild(nameTd);
+
+      for (const tier of skills) {
+        const td = document.createElement("td");
+        const val = DATA[state.gender][tier][state.club][m.id];
+        const f = fmt(m, val);
+        td.innerHTML = `${f.v}${f.s ? `<span class="unit">${f.s}</span>` : ""}`;
+        tr.appendChild(td);
+      }
+      body.appendChild(tr);
+    }
+  }
+
+  //== Trajectory canvas ========================================================
+  function renderTraj() {
+    const cv = document.getElementById("traj-canvas");
+    const ctx = cv.getContext("2d");
+    const W = cv.width, H = cv.height;
+    ctx.clearRect(0, 0, W, H);
+
+    const padL = 54, padR = 24, padT = 20, padB = 40;
+    const plotW = W - padL - padR, plotH = H - padT - padB;
+
+    const shots = visibleSkills().map(tier => ({
+      tier,
+      carry: DATA[state.gender][tier][state.club].carry,     // yd
+      apex: DATA[state.gender][tier][state.club].height,      // ft
+      land: DATA[state.gender][tier][state.club].land_angle,  // deg
+    }));
+    const legendEl = document.getElementById("traj-legend");
+    if (shots.length === 0) { legendEl.innerHTML = ""; return; }
+    const maxCarry = Math.max(...shots.map(s => s.carry)) * 1.05;
+    const maxApex = Math.max(...shots.map(s => s.apex)) * 1.15;
+
+    // axes
+    ctx.strokeStyle = "#e5d5d2"; ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(padL, padT); ctx.lineTo(padL, padT + plotH);
+    ctx.lineTo(padL + plotW, padT + plotH); ctx.stroke();
+
+    const U = UNITS[state.unit];
+    ctx.fillStyle = "#9a8f8a"; ctx.font = "12px -apple-system, sans-serif";
+    // x axis labels (distance)
+    ctx.textAlign = "center";
+    for (let i = 0; i <= 4; i++) {
+      const yd = (maxCarry / 4) * i;
+      const x = padL + (plotW / 4) * i;
+      const disp = Math.round(U.dist.f(yd));
+      ctx.fillText(disp + (i === 4 ? " " + U.dist.s : ""), x, padT + plotH + 22);
+    }
+    // y axis labels (height)
+    ctx.textAlign = "right";
+    for (let i = 0; i <= 3; i++) {
+      const ft = (maxApex / 3) * i;
+      const y = padT + plotH - (plotH / 3) * i;
+      const disp = Math.round(U.height.f(ft));
+      ctx.fillText(disp + (i === 3 ? " " + U.height.s : ""), padL - 8, y + 4);
+    }
+
+    // arcs
+    for (const s of shots) {
+      const apexT = Math.min(0.5, 0.55 - s.land / 240); // steeper land -> peak later
+      ctx.strokeStyle = TRAJ_HEX[s.tier];
+      ctx.lineWidth = 2.5; ctx.beginPath();
+      const N = 80;
+      for (let i = 0; i <= N; i++) {
+        const tt = i / N;
+        const x = tt * s.carry;
+        let h;
+        if (tt <= apexT) h = s.apex * (1 - Math.pow((apexT - tt) / apexT, 2));
+        else h = s.apex * (1 - Math.pow((tt - apexT) / (1 - apexT), 2));
+        const px = padL + (x / maxCarry) * plotW;
+        const py = padT + plotH - (h / maxApex) * plotH;
+        if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+    }
+
+    // legend
+    const legend = document.getElementById("traj-legend");
+    legend.innerHTML = "";
+    for (const s of shots) {
+      const carryD = Math.round(U.dist.f(s.carry));
+      const span = document.createElement("span");
+      span.innerHTML = `<span class="dot" style="background:${TRAJ_HEX[s.tier]}"></span>${t(s.tier)} · ${carryD}${U.dist.s}`;
+      legend.appendChild(span);
+    }
+  }
+
+  //== Modal ====================================================================
+  let lastFocused = null;
+  function openModal(id, trigger) {
+    const m = METRIC_BY_ID[id];
+    const L = m[state.lang];
+    lastFocused = trigger || document.activeElement;
+    const badge = document.getElementById("modal-badge");
+    badge.textContent = "T" + m.tier + " · " + t("t" + m.tier);
+    badge.style.background = TIER_COLORS[m.tier];
+    badge.style.color = TIER_TEXT[m.tier];
+    document.getElementById("modal-title").textContent = L.name;
+    const fEl = document.getElementById("modal-formula");
+    if (L.formula) { fEl.textContent = L.formula; fEl.style.display = "inline-block"; }
+    else fEl.style.display = "none";
+    document.getElementById("modal-def").textContent = L.def;
+    document.getElementById("modal-effect").textContent = L.effect;
+    document.getElementById("modal-fault").textContent = L.fault;
+    const ov = document.getElementById("overlay");
+    ov.classList.add("open");
+    document.getElementById("modal-close").focus();
+  }
+  function closeModal() {
+    document.getElementById("overlay").classList.remove("open");
+    if (lastFocused) lastFocused.focus();
+  }
+
+  //== Dashboard (all clubs × all metrics, sortable) ============================
+  function renderViewSeg() {
+    const seg = document.getElementById("view-seg");
+    seg.innerHTML = "";
+    for (const v of ["compare", "cards", "dashboard"]) {
+      const b = document.createElement("button");
+      b.textContent = t(v);
+      b.classList.toggle("active", state.view === v);
+      b.onclick = () => { state.view = v; render(); renderViewSeg(); };
+      seg.appendChild(b);
+    }
+  }
+
+  function sortedClubList(cols, skills) {
+    if (state.sort.key === "club" || skills.length === 0) {
+      return state.sort.dir >= 0 ? CLUBS : [...CLUBS].reverse();
+    }
+    // sort key tier: prefer Tour Pro, then Amateur, then Beginner among visible
+    const sortTier = ["Tour_Pro", "Amateur", "Beginner"].find(s => skills.includes(s));
+    const key = state.sort.key;
+    return [...CLUBS].sort((a, b) => {
+      const va = DATA[state.gender][sortTier][a][key];
+      const vb = DATA[state.gender][sortTier][b][key];
+      return (va - vb) * state.sort.dir;
+    });
+  }
+
+  function setSort(key) {
+    if (state.sort.key === key) state.sort.dir *= -1;
+    else state.sort = { key, dir: key === "club" ? 1 : -1 };
+    render();
+  }
+
+  function caret(key) {
+    if (state.sort.key !== key) return `<span class="caret">↕</span>`;
+    return `<span class="caret">${state.sort.dir >= 0 ? "▲" : "▼"}</span>`;
+  }
+
+  function renderDashboard() {
+    const skills = visibleSkills();
+    const cols = METRICS.filter(m => m.tabular && state.activeTiers[m.tier]);
+
+    const head = document.getElementById("table-head");
+    head.innerHTML = "";
+    const ch = document.createElement("th");
+    ch.className = "sortable" + (state.sort.key === "club" ? " active" : "");
+    ch.innerHTML = `<span class="th-inner">${t("club")} ${caret("club")}</span>`;
+    ch.onclick = () => setSort("club");
+    head.appendChild(ch);
+
+    for (const m of cols) {
+      const th = document.createElement("th");
+      th.className = "sortable" + (state.sort.key === m.id ? " active" : "");
+      const unit = fmt(m, 0).s;
+      th.innerHTML = `<span class="th-inner">${m[state.lang].name}` +
+        (unit ? ` <span class="unit">${unit}</span>` : "") + ` ${caret(m.id)}</span>`;
+      th.onclick = () => setSort(m.id);
+      head.appendChild(th);
+    }
+
+    const body = document.getElementById("table-body");
+    body.innerHTML = "";
+    for (const club of sortedClubList(cols, skills)) {
+      const tr = document.createElement("tr");
+      const cc = document.createElement("td");
+      cc.className = "club-cell";
+      cc.textContent = club;
+      tr.appendChild(cc);
+      for (const m of cols) {
+        const td = document.createElement("td");
+        const stack = skills.map(s => {
+          const val = DATA[state.gender][s][club][m.id];
+          return `<span style="color:${TRAJ_HEX[s]}">${fmt(m, val).v}</span>`;
+        }).join("");
+        td.innerHTML = `<div class="stack">${stack}</div>`;
+        tr.appendChild(td);
+      }
+      body.appendChild(tr);
+    }
+  }
+
+  //== Cards (per-club, one card per metric) ====================================
+  function renderCards() {
+    const skills = visibleSkills();
+    const cols = METRICS.filter(m => m.tabular && state.activeTiers[m.tier]);
+    const box = document.getElementById("cards");
+    box.innerHTML = "";
+    for (const m of cols) {
+      const card = document.createElement("div");
+      card.className = "card";
+      const head = document.createElement("div");
+      head.className = "card-head";
+      head.appendChild(tierBadge(m.tier));
+      const btn = document.createElement("button");
+      btn.className = "metric-name";
+      btn.innerHTML = `${m[state.lang].name} <span class="info">i</span>`;
+      btn.onclick = () => openModal(m.id, btn);
+      head.appendChild(btn);
+      card.appendChild(head);
+
+      // bar scale: min-max across all three tiers (abs), so bars differentiate
+      const all = TIERS.map(s => Math.abs(DATA[state.gender][s][state.club][m.id]));
+      const mn = Math.min(...all), mx = Math.max(...all);
+      const rows = document.createElement("div");
+      rows.className = "card-rows";
+      for (const s of skills) {
+        const raw = DATA[state.gender][s][state.club][m.id];
+        const f = fmt(m, raw);
+        const w = mx > mn ? 25 + 75 * ((Math.abs(raw) - mn) / (mx - mn)) : 60;
+        const row = document.createElement("div");
+        row.className = "card-row";
+        row.innerHTML =
+          `<span class="cr-name"><span class="dot" style="background:${TRAJ_HEX[s]}"></span>${t(s)}</span>` +
+          `<span class="cr-bar"><span class="cr-fill" style="width:${w}%;background:${TRAJ_HEX[s]}"></span></span>` +
+          `<span class="cr-val">${f.v}${f.s ? `<span class="unit">${f.s}</span>` : ""}</span>`;
+        rows.appendChild(row);
+      }
+      card.appendChild(rows);
+      box.appendChild(card);
+    }
+  }
+
+  //== Wiring ===================================================================
+  function render() {
+    const v = state.view, dash = v === "dashboard", cards = v === "cards";
+    document.querySelector(".table-scroll table").classList.toggle("dash", dash);
+    document.getElementById("club-ctrl").style.display = dash ? "none" : "";
+    document.getElementById("traj-card").style.display = dash ? "none" : "";
+    document.querySelector(".table-scroll").style.display = cards ? "none" : "";
+    document.getElementById("cards").style.display = cards ? "" : "none";
+    if (dash) renderDashboard();
+    else if (cards) { renderCards(); renderTraj(); }
+    else { renderTable(); renderTraj(); }
+  }
+
+  function rerenderAll() {
+    renderStatic(); renderViewSeg(); renderUnitSeg(); renderGenderSeg();
+    renderSkillFilter(); renderTierFilter(); render();
+  }
+
+  document.getElementById("modal-close").onclick = closeModal;
+  document.getElementById("overlay").addEventListener("click", e => {
+    if (e.target.id === "overlay") closeModal();
+  });
+  document.addEventListener("keydown", e => {
+    const ov = document.getElementById("overlay");
+    if (!ov.classList.contains("open")) return;
+    if (e.key === "Escape") closeModal();
+    if (e.key === "Tab") { // focus trap (only close button is focusable)
+      e.preventDefault();
+      document.getElementById("modal-close").focus();
+    }
+  });
+  document.querySelectorAll("#lang-seg button").forEach(b => {
+    b.onclick = () => { state.lang = b.dataset.lang; rerenderAll(); };
+  });
+
+  renderClubSelect();
+  rerenderAll();
+  </script>
+</body>
+</html>
