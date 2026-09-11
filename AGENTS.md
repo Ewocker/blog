@@ -97,7 +97,7 @@ The vault root is `~/Desktop/Dropbox/Project/Obsidian/default/`. Read the vault'
 - Strip vault wiki links, vault paths, and anything work-internal (Adobe tools, team names, codenames) before it lands in `content/`.
 - Never invent series numbering; count the existing episode files in the series directory.
 - Never hand-edit the author's published posts for style; the style guide is edited instead, and the change flows into the next post.
-- Netlify preview notification by email needs the repository secrets `NETLIFY_SITE_ID`, `NETLIFY_TOKEN`, `GMAIL_USERNAME`, and `GMAIL_APP_PASSWORD`; the workflow silently does nothing useful without them.
+- Netlify preview notification by email needs the repository secrets `GMAIL_USERNAME` and `GMAIL_APP_PASSWORD`. The workflow waits on the Netlify commit status, so no Netlify credentials are needed.
 
 ## Series currently on the blog
 
