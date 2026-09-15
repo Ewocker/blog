@@ -36,7 +36,7 @@ Component playground: http://localhost:3000/blog/_storybook
 
 ## Deployment
 
-Netlify. Production builds from `main`; every pull request gets a deploy preview (`netlify.toml`, `context.deploy-preview`). `.github/workflows/notify-preview.yml` emails the preview URL for PRs opened by the publishing skill once the `GMAIL_USERNAME` and `GMAIL_APP_PASSWORD` repository secrets are configured. It reads the preview URL from the Netlify commit status, so no Netlify credentials are needed.
+Netlify. Production builds from `main`; every pull request gets a deploy preview (`netlify.toml`, `context.deploy-preview`). GitHub's native PR notifications surface the preview link.
 
 ## Known issues
 

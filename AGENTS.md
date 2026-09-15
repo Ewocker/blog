@@ -74,7 +74,6 @@ References/blog-style-guide.md                      public/blog/<slug>/<NN>/hero
 | Converter skill | vault `Dotfiles/skills/personal/blog-publisher/SKILL.md`, symlinked to `~/.claude/skills/blog-publisher` |
 | Image skill and script | `~/.claude/skills/image-generator`, `Scripts/firefly-generate.sh` in the vault (needs `FIREFLY_IMS_TOKEN`) |
 | Design spec and plan | `docs/superpowers/specs/2026-04-03-blog-automation-design.md`, `docs/superpowers/plans/2026-04-03-blog-automation.md` |
-| Preview notification | `.github/workflows/notify-preview.yml` |
 
 The vault root is `~/Desktop/Dropbox/Project/Obsidian/default/`. Read the vault's own `AGENTS.md` before writing anything there.
 
@@ -85,7 +84,7 @@ The vault root is `~/Desktop/Dropbox/Project/Obsidian/default/`. Read the vault'
 3. **Generate** the post in the author's voice: Traditional Chinese with English tech terms, series frontmatter, `::epilogue` (mandatory on series episodes), `::footnote-block` for unfamiliar terms, and hero and inline image prompts. Image prompts for the hero go in the frontmatter as YAML `#` comments (never HTML comments, which break hydration); inline prompts go inside `::note-img` bodies as HTML comments.
 4. **Images** through the `image-generator` skill (Adobe Firefly). Without a token the skill leaves the prompt and a TODO placeholder for the author.
 5. **Review** with the author, iterate on text and images.
-6. **Publish**: branch `blog/<slug>` from an up-to-date `main`, add the post and `public/blog/<slug>/<NN>/`, commit `add: <post title>`, push, open a PR whose body contains the literal text `blog-publisher skill` so the notification workflow matches. Netlify builds a deploy preview for every PR.
+6. **Publish**: branch `blog/<slug>` from an up-to-date `main`, add the post and `public/blog/<slug>/<NN>/`, commit `add: <post title>`, push, open a PR whose body contains the literal text `blog-publisher skill`. Netlify builds a deploy preview for every PR.
 7. **Merge** is the author's decision. Never push to `main` directly.
 8. **Update the vault**: set the draft's `status: published` and add a row to `Blog/Published Post Tracking.md`.
 
@@ -97,7 +96,6 @@ The vault root is `~/Desktop/Dropbox/Project/Obsidian/default/`. Read the vault'
 - Strip vault wiki links, vault paths, and anything work-internal (Adobe tools, team names, codenames) before it lands in `content/`.
 - Never invent series numbering; count the existing episode files in the series directory.
 - Never hand-edit the author's published posts for style; the style guide is edited instead, and the change flows into the next post.
-- Netlify preview notification by email needs the repository secrets `GMAIL_USERNAME` and `GMAIL_APP_PASSWORD`. The workflow waits on the Netlify commit status, so no Netlify credentials are needed.
 
 ## Series currently on the blog
 
