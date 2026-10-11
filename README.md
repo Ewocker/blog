@@ -12,7 +12,7 @@ Personal blog of 小貓貓工程師 (Silicon Valley Kitty Cat Engineer). Bilingu
 
 ## How posts get written
 
-Since April 2026 most posts start as a draft in an Obsidian vault and are converted into a finished post by a Claude Code skill (`blog-publisher`) that applies a 900-line style guide extracted from the existing posts. The skill generates the Markdown, the hero image prompt (rendered through Adobe Firefly when a token is available), opens a pull request on a `blog/<slug>` branch, and Netlify builds a deploy preview for review. Merging the PR publishes the post. The draft, the style guide, and the skill live in the vault, not in this repo; `obsidian-link` is a read-only symlink to the vault's `Blog/` folder for convenience. See `AGENTS.md` for the full flow and the rules.
+Since April 2026 most posts start as a draft in an Obsidian vault and are converted into a finished post by a Claude Code skill (`blog-publisher`) that applies a 900-line style guide extracted from the existing posts. The skill generates the Markdown, the image prompts (images are supplied by the author), opens a pull request on a `blog/<slug>` branch, and Netlify builds a deploy preview for review. Merging the PR publishes the post. The draft, the style guide, and the skill live in the vault, not in this repo. See `AGENTS.md` for the full flow and the rules.
 
 Posts written this way carry the `AI 加速` keyword and a `::colophon` disclosure.
 

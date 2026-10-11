@@ -59,34 +59,34 @@ The blog is fed by a pipeline that lives mostly outside this repo. Two systems, 
 
 ```
 Obsidian vault (thinking)            this repo (publishing)
-Blog/drafts/<name>.md   --blog-publisher skill-->   content/1.blog/NNN.slug/NN.md
-References/blog-style-guide.md                      public/blog/<slug>/<NN>/hero.jpeg
-                                                    feature branch -> PR -> Netlify deploy preview -> merge
+Records/<name>.md      --blog-publisher skill-->   content/1.blog/NNN.slug/NN.md
+(type: blog-post)                                  public/blog/<slug>/<NN>/hero.jpeg
+Records/blog-style-guide.md                                feature branch -> PR -> Netlify deploy preview -> merge
 ```
 
 ### Where things live
 
 | Piece | Location |
 |---|---|
-| Drafts (any language, tagged `blog/draft`) | vault `Blog/drafts/`; readable here through the committed `obsidian-link` symlink (read-only convenience, never write through it) |
-| Published index | vault `Blog/Published Post Tracking.md` |
-| Style guide ("tone file", voice DNA, 6 post types, 12 sections) | vault `References/blog-style-guide.md` |
+| Drafts (any language) | vault `Records/<name>.md` with `type: blog-post` and `status: draft` |
+| Published posts | This repo, `content/1.blog/NNN.slug/NN.md`. They are not in the vault. The publish log is in the vault note `Records/blog-publishing-pipeline.md`. |
+| Style guide ("tone file", voice DNA, 6 post types, 12 sections) | vault note `Records/blog-style-guide.md` |
 | Converter skill | vault `Dotfiles/skills/personal/blog-publisher/SKILL.md`, symlinked to `~/.claude/skills/blog-publisher` |
-| Image skill and script | `~/.claude/skills/image-generator`, `Scripts/firefly-generate.sh` in the vault (needs `FIREFLY_IMS_TOKEN`) |
+| The single vault record for the blog | `Records/blog-ewocker-com.md`: the area root with the rules and a link to the style guide, the publishing flow and the site overview |
 | Design spec and plan | `docs/superpowers/specs/2026-04-03-blog-automation-design.md`, `docs/superpowers/plans/2026-04-03-blog-automation.md` |
 
 The vault root is `~/Desktop/Dropbox/Project/Obsidian/default/`. Read the vault's own `AGENTS.md` before writing anything there.
 
 ### The flow
 
-1. **Draft** in the vault under `Blog/drafts/`. English, Chinese, or mixed. Add `blog/type/<type>` to the tags to pin the post type; otherwise the skill infers it.
+1. **Draft** in the vault as a `Records/<name>.md` note with `type: blog-post` and `status: draft`. English, Chinese, or mixed. Add `blog/type/<type>` to the tags to pin the post type; otherwise the skill infers it.
 2. **Convert** by invoking the `blog-publisher` skill ("publish <draft-name>"). The skill reads the draft, reads the style guide fresh, reads every existing episode of the target series for numbering and callbacks, and asks for confirmation of type and series before generating.
 3. **Generate** the post in the author's voice: Traditional Chinese with English tech terms, series frontmatter, `::epilogue` (mandatory on series episodes), `::footnote-block` for unfamiliar terms, and hero and inline image prompts. Image prompts for the hero go in the frontmatter as YAML `#` comments (never HTML comments, which break hydration); inline prompts go inside `::note-img` bodies as HTML comments.
-4. **Images** through the `image-generator` skill (Adobe Firefly). Without a token the skill leaves the prompt and a TODO placeholder for the author.
+4. **Images**: there is no image generator. The skill leaves the prompts as comments and TODO placeholders; the author supplies the images.
 5. **Review** with the author, iterate on text and images.
 6. **Publish**: branch `blog/<slug>` from an up-to-date `main`, add the post and `public/blog/<slug>/<NN>/`, commit `add: <post title>`, push, open a PR whose body contains the literal text `blog-publisher skill`. Netlify builds a deploy preview for every PR.
 7. **Merge** is the author's decision. Never push to `main` directly.
-8. **Update the vault**: set the draft's `status: published` and add a row to `Blog/Published Post Tracking.md`.
+8. **Update the vault**: add a row to the publish log in `Records/blog-publishing-pipeline.md`. After the PR is merged, the author deletes the vault draft; the repo is then the only copy.
 
 ### Rules that hold regardless of who runs the pipeline
 
